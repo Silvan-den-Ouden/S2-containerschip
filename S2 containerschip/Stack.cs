@@ -11,7 +11,7 @@ namespace S2_containerschip
 {
     public class Stack
     {
-        List<Container> Containers { get; set; }
+        public List<Container> Containers { get; set; }
 
         public Stack() {
             Containers = new();

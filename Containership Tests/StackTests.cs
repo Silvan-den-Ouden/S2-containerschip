@@ -28,7 +28,7 @@ namespace Containership_Tests
             // Act
             foreach (Container container in containerList)
             {
-                stack.AddContainer(container);
+                stack.Containers.Add(container);
             }
            
             // Assert
@@ -51,7 +51,7 @@ namespace Containership_Tests
             // Act
             foreach (Container container in containerList)
             {
-                stack.AddContainer(container);
+                stack.Containers.Add(container);
             }
 
             // Assert
@@ -74,7 +74,7 @@ namespace Containership_Tests
             // Act
             foreach (Container container in containerList2)
             {
-                stack.AddContainer(container);
+                stack.Containers.Add(container);
             }
 
             // Assert
@@ -84,12 +84,11 @@ namespace Containership_Tests
         [TestMethod]
         public void CanAddContainer_WithSpaceToAdd_ShouldAllReturnTrue()
         {
-            // Act
+            // Arrange
             Stack stack = new();
 
-            // Arrange
-            
-            stack.AddContainer(NormalContainer);
+            // Act
+            stack.Containers.Add(NormalContainer);
 
             // Assert
             Assert.IsTrue(stack.CanAddContainer(NormalContainer));
@@ -98,38 +97,87 @@ namespace Containership_Tests
             Assert.IsTrue(stack.CanAddContainer(CooledContainer));
         }
 
+        // FEEDBACK VRAGEN: is dit beter?
         [TestMethod]
         public void CanAddContainer_WithoutSpaceToAdd_ShouldReturnFalse()
         {
-            // Act
+            // Arrange
             Stack stack = new();
 
-            // Arrange
+            // Act
             // The load on the first container is 100 000 kg, so it cannot add another heavy container
-            stack.AddContainer(NormalContainer);
-            stack.AddContainer(NormalContainer);
-            stack.AddContainer(HeavyContainer);
-            stack.AddContainer(HeavyContainer);
-            stack.AddContainer(HeavyContainer);
+            stack.Containers.Add(NormalContainer);
+            stack.Containers.Add(NormalContainer);
+            stack.Containers.Add(HeavyContainer);
+            stack.Containers.Add(HeavyContainer);
+            stack.Containers.Add(HeavyContainer);
 
             // Assert
             Assert.IsFalse(stack.CanAddContainer(HeavyContainer));
         }
 
+        // FEEDBACK VRAGEN: of is dit beter?
         [TestMethod]
         public void CanAddContainer_WithValuableContainerOnTop_ShouldReturnFalse()
         {
-            // Act
-            Stack stack = new();
-
             // Arrange
-            stack.AddContainer(ValuableContainer);
+            Stack stack = new();
+            stack.Containers.Add(ValuableContainer);
+
+            // Act
+            bool canAddNormalContainer = stack.CanAddContainer(NormalContainer);
+            bool canAddHeavyContainer = stack.CanAddContainer(HeavyContainer);
+            bool canAddCooledContainer = stack.CanAddContainer(CooledContainer);
+            bool canAddValuableContainer = stack.CanAddContainer(ValuableContainer);
 
             // Assert
-            Assert.IsFalse(stack.CanAddContainer(NormalContainer));
-            Assert.IsFalse(stack.CanAddContainer(HeavyContainer)); 
-            Assert.IsFalse(stack.CanAddContainer(CooledContainer));
-            Assert.IsFalse(stack.CanAddContainer(ValuableContainer));
+            Assert.IsFalse(canAddNormalContainer);
+            Assert.IsFalse(canAddHeavyContainer); 
+            Assert.IsFalse(canAddCooledContainer);
+            Assert.IsFalse(canAddValuableContainer);
         }
+
+        [TestMethod]
+        public void AddContainer_WithValidContainer_ShouldNotThrowException()
+        {
+            // Arrange
+            Stack stack = new();
+            
+            // Act
+            try
+            {
+                stack.AddContainer(NormalContainer);
+            }
+            catch (InvalidOperationException)
+            {
+                Assert.Fail("Unexpected exception was thrown.");
+            }
+
+            // Assert
+            Assert.AreEqual(1, stack.Containers.Count);
+            Assert.AreEqual(NormalContainer, stack.Containers[0]);
+        }
+
+        [TestMethod]
+        public void AddContainer_WithInvalidContainer_ShouldThrowException()
+        {
+            // Arrange
+            Stack stack = new();
+            stack.Containers.Add(ValuableContainer);
+
+            // Act
+            try
+            {
+                stack.AddContainer(NormalContainer);
+            }
+            catch (InvalidOperationException)
+            {
+                return;
+            }
+
+            // Assert
+            Assert.Fail("Did not throw expected exception.");
+        }
+
     }
 }
