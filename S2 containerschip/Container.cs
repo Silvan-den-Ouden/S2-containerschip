@@ -11,7 +11,7 @@ namespace S2_containerschip
         public int Weight { get; set; }
         public bool Cooled { get; set; }
         public bool Valuable { get; set; }
-        // max gewicht op container is 120 ton
+        public static int MaxLoad = 120;
 
         public Container(int weight, bool cooled, bool valuable) { 
             Weight = weight;

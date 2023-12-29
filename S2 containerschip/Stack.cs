@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+
+[assembly: InternalsVisibleTo("Containership_Tests")]
 
 namespace S2_containerschip
 {
     public class Stack
     {
         List<Container> Containers { get; set; }
-        private int maxLoad = 120;
 
         public Stack() {
             Containers = new();
@@ -26,20 +28,22 @@ namespace S2_containerschip
             }
         }
 
-        private bool CanAddContainer(Container container)
+        public bool CanAddContainer(Container container)
         {
-            if(GetLoadOnBottomContainer() <= maxLoad)
+            if(GetLoadOnBottomContainer() + container.Weight > Container.MaxLoad)
             {
-                return true;
+                return false;
             }
 
-            return false;
-        }
-        //  does it not overload the bottom container
-        //  if its cooled, is it on the first row
-        //  valuable checks
+            if (TopIsValuable())
+            {
+                return false;
+            }
 
-        private int GetLoadOnBottomContainer()
+            return true;
+        }
+
+        public int GetLoadOnBottomContainer()
         {
             int load = 0;
 
@@ -49,6 +53,22 @@ namespace S2_containerschip
 
             return load;
         }
-        // loop through all but the bottom container and add their weights
+
+        public bool TopIsValuable()
+        {
+            // if there are no containers, the top cant be valuable
+            if(Containers.Count == 0)
+            {
+                return false;
+            }
+
+            // checks if last (aka the top of the stack) container in containers is valuable 
+            if (Containers[^1].Valuable)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }
