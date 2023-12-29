@@ -1,26 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace S2_containerschip
 {
     public class Container
     {
-        public int Weight { get; set; }
+        public int Content { get; set; }
         public bool Cooled { get; set; }
         public bool Valuable { get; set; }
-        // change this to GetMaxLoad()
-        public static int MaxLoad = 120;
 
-        public Container(int weight, bool cooled, bool valuable) { 
-            Weight = weight;
+        // All in kg
+        private readonly int MaxLoad = 120000;
+        private readonly int ContainerWeight = 4000;
+        private readonly int MaxContainerWeight = 30000;
+
+        public Container(int content, bool cooled, bool valuable)
+        {
+            if ((content + ContainerWeight) > MaxContainerWeight)
+            {
+                throw new InvalidOperationException("Container weight exceeds the maximum limit of 30 tonnes.");
+            }
+
+            Content = content;
             Cooled = cooled;
             Valuable = valuable;
         }
 
-        // add max weight constraint to container (30 tonnes)
-        // containers should weight 4000 kg + contents 
+        public int GetMaxLoad()
+        {
+            return MaxLoad;
+        }
+
+        public int GetWeight()
+        {
+            int totalContainerWeight = Content + ContainerWeight;
+
+            if (totalContainerWeight > MaxContainerWeight)
+            {
+                throw new InvalidOperationException("Container weight exceeds the maximum limit of 30 tonnes.");
+            }
+
+            return totalContainerWeight;
+        }
     }
 }

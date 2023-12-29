@@ -24,14 +24,13 @@ namespace S2_containerschip
                 Containers.Add(container);
             } else
             {
-                // handle error
+                throw new InvalidOperationException("Could not add container.");
             }
         }
 
         public bool CanAddContainer(Container container)
         {
-            // change this to .GetMaxLoad()
-            if(GetLoadOnBottomContainer() + container.Weight > Container.MaxLoad)
+            if(GetLoadOnBottomContainer() + container.GetWeight() > container.GetMaxLoad())
             {
                 return false;
             }
@@ -49,7 +48,7 @@ namespace S2_containerschip
             int load = 0;
 
             for(int i = 1; i < Containers.Count; i++) {
-                load += Containers[i].Weight;
+                load += Containers[i].GetWeight();
             }
 
             return load;

@@ -1,20 +1,23 @@
+using System;
+using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 namespace Containership_Tests
 {
     [TestClass]
     public class StackTests
     {
-        readonly Container NormalContainer = new(10, false, false);
-        readonly Container HeavyContainer = new(30, false, false);
-        readonly Container ValuableContainer = new(10, false, true);
-        readonly Container CooledContainer = new(10, true, false);
+        readonly Container NormalContainer = new(6000, false, false);
+        readonly Container HeavyContainer = new(26000, false, false);
+        readonly Container ValuableContainer = new(6000, false, true);
+        readonly Container CooledContainer = new(6000, true, false);
 
         [TestMethod]
         public void GetLoadOnBottomContainer_WorksCorrectly()
         {
             // Arrange
             Stack stack = new();
-
-            List<Container> containerList = new()
+            List<Container> containerList = new List<Container>
             {
                 NormalContainer,
                 NormalContainer,
@@ -23,13 +26,20 @@ namespace Containership_Tests
             };
 
             // Act
-            foreach (Container container in containerList)
+            try
             {
-                stack.AddContainer(container);
-            }
+                foreach (Container container in containerList)
+                {
+                    stack.AddContainer(container);
+                }
 
-            // Assert
-            Assert.AreEqual(30, stack.GetLoadOnBottomContainer());
+                // Assert
+                Assert.AreEqual(30000, stack.GetLoadOnBottomContainer());
+            }
+            catch (InvalidOperationException)
+            {
+                Assert.Fail("Unexpected exception was thrown.");
+            }
         }
 
         [TestMethod]
@@ -39,14 +49,14 @@ namespace Containership_Tests
             Stack stack1 = new();
             Stack stack2 = new();
 
-            List<Container> containerList1 = new()
+            List<Container> containerList1 = new List<Container>
             {
                 NormalContainer,
                 NormalContainer,
                 ValuableContainer,
             };
 
-            List<Container> containerList2 = new()
+            List<Container> containerList2 = new List<Container>
             {
                 NormalContainer,
                 NormalContainer,
@@ -54,14 +64,21 @@ namespace Containership_Tests
             };
 
             // Act
-            foreach (Container container in containerList1)
+            try
             {
-                stack1.AddContainer(container);
-            }
+                foreach (Container container in containerList1)
+                {
+                    stack1.AddContainer(container);
+                }
 
-            foreach (Container container in containerList2)
+                foreach (Container container in containerList2)
+                {
+                    stack2.AddContainer(container);
+                }
+            }
+            catch (InvalidOperationException)
             {
-                stack2.AddContainer(container);
+                Assert.Fail("Unexpected exception was thrown.");
             }
 
             // Assert
@@ -69,21 +86,26 @@ namespace Containership_Tests
             Assert.IsFalse(stack2.TopIsValuable());
         }
 
-
-        
         [TestMethod]
         public void CanAddContainerWorkWithNormalContainerOnTop()
         {
             // Act
             Stack stack = new();
-            
+
             // Arrange
-            // The load on the first container is 100
-            stack.AddContainer(NormalContainer);
-            stack.AddContainer(NormalContainer);
-            stack.AddContainer(HeavyContainer);
-            stack.AddContainer(HeavyContainer);
-            stack.AddContainer(HeavyContainer);
+            try
+            {
+                // The load on the first container is 100 000 kg, so it cannot add another heavy container
+                stack.AddContainer(NormalContainer);
+                stack.AddContainer(NormalContainer);
+                stack.AddContainer(HeavyContainer);
+                stack.AddContainer(HeavyContainer);
+                stack.AddContainer(HeavyContainer);
+            }
+            catch (InvalidOperationException)
+            {
+                Assert.Fail("Unexpected exception was thrown.");
+            }
 
             // Assert
             Assert.IsTrue(stack.CanAddContainer(NormalContainer));
@@ -99,7 +121,14 @@ namespace Containership_Tests
             Stack stack = new();
 
             // Arrange
-            stack.AddContainer(ValuableContainer);
+            try
+            {
+                stack.AddContainer(ValuableContainer);
+            }
+            catch (InvalidOperationException)
+            {
+                Assert.Fail("Unexpected exception was thrown.");
+            }
 
             // Assert
             Assert.IsFalse(stack.CanAddContainer(NormalContainer));
