@@ -8,14 +8,10 @@ namespace S2_containerschip
 {
     public class Ship
     {
-        List<Row> rows { get; set; }
-
-        // first row is front
-        public Ship()
-        {
-            rows = new();
-        }
-
-        // MakeRowsBasedOnLengthOfShip()
+        // needs:
+        // width
+        // length
+        // functionality so it doesnt capsize
+        // checks so that 50% of the max ship weight is used
     }
 }

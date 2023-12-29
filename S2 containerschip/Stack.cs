@@ -30,6 +30,7 @@ namespace S2_containerschip
 
         public bool CanAddContainer(Container container)
         {
+            // change this to .GetMaxLoad()
             if(GetLoadOnBottomContainer() + container.Weight > Container.MaxLoad)
             {
                 return false;

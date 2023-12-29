@@ -16,6 +16,10 @@ namespace S2_containerschip
         }
 
         // MakeStacksBasedOnWidthOfShip()
+        
+        // CanAddContainer
+        // should check if stack.CanAddContainer
+        // if container is cooled only can add front row ooga booga
 
 
     }

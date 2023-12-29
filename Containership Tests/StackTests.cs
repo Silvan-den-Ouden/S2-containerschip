@@ -4,7 +4,7 @@ namespace Containership_Tests
     public class StackTests
     {
         readonly Container NormalContainer = new(10, false, false);
-        readonly Container HeavyContainer = new(70, false, false);
+        readonly Container HeavyContainer = new(30, false, false);
         readonly Container ValuableContainer = new(10, false, true);
         readonly Container CooledContainer = new(10, true, false);
 
@@ -69,6 +69,8 @@ namespace Containership_Tests
             Assert.IsFalse(stack2.TopIsValuable());
         }
 
+
+        
         [TestMethod]
         public void CanAddContainerWorkWithNormalContainerOnTop()
         {
@@ -76,7 +78,11 @@ namespace Containership_Tests
             Stack stack = new();
             
             // Arrange
+            // The load on the first container is 100
             stack.AddContainer(NormalContainer);
+            stack.AddContainer(NormalContainer);
+            stack.AddContainer(HeavyContainer);
+            stack.AddContainer(HeavyContainer);
             stack.AddContainer(HeavyContainer);
 
             // Assert
@@ -89,8 +95,15 @@ namespace Containership_Tests
         [TestMethod]
         public void CannotAddContainerOnTopOfValuableContainer()
         {
+            // Act
             Stack stack = new();
-            
+
+            // Arrange
+            stack.AddContainer(ValuableContainer);
+
+            // Assert
+            Assert.IsFalse(stack.CanAddContainer(NormalContainer));
+            Assert.IsFalse(stack.CanAddContainer(ValuableContainer));
         }
     }
 }
