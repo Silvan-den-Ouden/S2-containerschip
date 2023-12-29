@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2 containerschip", "S2 containerschip\S2 containerschip.csproj", "{DB149B41-BDD2-462F-B654-9B9CF9DC1CB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Containership Tests", "Containership Tests\Containership Tests.csproj", "{315764FA-7B34-4FD9-AD8D-2342EAD6DDBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Containership Tests", "Containership Tests\Containership Tests.csproj", "{315764FA-7B34-4FD9-AD8D-2342EAD6DDBA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

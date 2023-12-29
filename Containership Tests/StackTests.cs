@@ -13,7 +13,7 @@ namespace Containership_Tests
         readonly Container CooledContainer = new(6000, true, false);
 
         [TestMethod]
-        public void GetLoadOnBottomContainer_WorksCorrectly()
+        public void GetLoadOnBottomContainer_ReturnsCorrectLoad()
         {
             // Arrange
             Stack stack = new();
@@ -36,20 +36,35 @@ namespace Containership_Tests
         }
 
         [TestMethod]
-        public void TopIsValuable_WorksCorrectly()
+        public void TopIsValuable_WithValuableContainerOnTop_ReturnsTrue()
         {
             // Arrange
-            Stack stack1 = new();
-            Stack stack2 = new();
+            Stack stack = new();
 
-            List<Container> containerList1 = new List<Container>
+            List<Container> containerList = new()
             {
                 NormalContainer,
                 NormalContainer,
                 ValuableContainer,
             };
 
-            List<Container> containerList2 = new List<Container>
+            // Act
+            foreach (Container container in containerList)
+            {
+                stack.AddContainer(container);
+            }
+
+            // Assert
+            Assert.IsTrue(stack.TopIsValuable());
+        }
+
+        [TestMethod]
+        public void TopIsValuable_WithNonValuableContainerOnTop_ReturnsFalse()
+        {
+            // Arrange
+            Stack stack = new();
+
+            List<Container> containerList2 = new()
             {
                 NormalContainer,
                 NormalContainer,
@@ -57,23 +72,34 @@ namespace Containership_Tests
             };
 
             // Act
-            foreach (Container container in containerList1)
-            {
-                stack1.AddContainer(container);
-            }
-
             foreach (Container container in containerList2)
             {
-                stack2.AddContainer(container);
+                stack.AddContainer(container);
             }
 
             // Assert
-            Assert.IsTrue(stack1.TopIsValuable());
-            Assert.IsFalse(stack2.TopIsValuable());
+            Assert.IsFalse(stack.TopIsValuable());
         }
 
         [TestMethod]
-        public void CanAddContainerWorkWithNormalContainerOnTop()
+        public void CanAddContainer_WithSpaceToAdd_ShouldAllReturnTrue()
+        {
+            // Act
+            Stack stack = new();
+
+            // Arrange
+            
+            stack.AddContainer(NormalContainer);
+
+            // Assert
+            Assert.IsTrue(stack.CanAddContainer(NormalContainer));
+            Assert.IsTrue(stack.CanAddContainer(HeavyContainer));
+            Assert.IsTrue(stack.CanAddContainer(ValuableContainer));
+            Assert.IsTrue(stack.CanAddContainer(CooledContainer));
+        }
+
+        [TestMethod]
+        public void CanAddContainer_WithoutSpaceToAdd_ShouldReturnFalse()
         {
             // Act
             Stack stack = new();
@@ -87,14 +113,11 @@ namespace Containership_Tests
             stack.AddContainer(HeavyContainer);
 
             // Assert
-            Assert.IsTrue(stack.CanAddContainer(NormalContainer));
             Assert.IsFalse(stack.CanAddContainer(HeavyContainer));
-            Assert.IsTrue(stack.CanAddContainer(ValuableContainer));
-            Assert.IsTrue(stack.CanAddContainer(CooledContainer));
         }
 
         [TestMethod]
-        public void CannotAddContainerOnTopOfValuableContainer()
+        public void CanAddContainer_WithValuableContainerOnTop_ShouldReturnFalse()
         {
             // Act
             Stack stack = new();
@@ -104,6 +127,8 @@ namespace Containership_Tests
 
             // Assert
             Assert.IsFalse(stack.CanAddContainer(NormalContainer));
+            Assert.IsFalse(stack.CanAddContainer(HeavyContainer)); 
+            Assert.IsFalse(stack.CanAddContainer(CooledContainer));
             Assert.IsFalse(stack.CanAddContainer(ValuableContainer));
         }
     }
