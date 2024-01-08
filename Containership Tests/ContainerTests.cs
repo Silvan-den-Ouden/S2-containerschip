@@ -6,6 +6,32 @@ namespace Containership_Tests
     public class ContainerTests
     {
         [TestMethod]
+        public void GetWeight_WithValidInput_ReturnsCorrectWeight()
+        {
+            // Arrange 
+            Container container = new(20000, false, false);
+
+            // Act
+            int weight = container.GetWeight();
+
+            // Assert
+            Assert.AreEqual(24000, weight);
+        }
+
+        [TestMethod]
+        public void GetMaxLoad_RerturnMaxLoad_IThinkThisTestCaseIsVerySilly()
+        {
+            // Arrange
+            Container container = new(20000, false, false);
+
+            // Act
+            int maxLoad = container.GetMaxLoad();
+
+            // Assert
+            Assert.AreEqual(120000, maxLoad);
+        }
+
+        [TestMethod]
         public void ContainerCreation_WithValidWeight_ShouldNotThrowException()
         {
             // Arrange

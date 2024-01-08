@@ -7,6 +7,7 @@ namespace Containership_Tests
     [TestClass]
     public class StackTests
     {
+        // FEEDBACK VRAGEN: mag dit?
         readonly Container NormalContainer = new(6000, false, false);
         readonly Container HeavyContainer = new(26000, false, false);
         readonly Container ValuableContainer = new(6000, false, true);
