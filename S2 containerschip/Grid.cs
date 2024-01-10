@@ -6,17 +6,20 @@ using System.Threading.Tasks;
 
 namespace S2_containerschip
 {
-    public class Columns
+    public class Grid
     {
         List<Row> rows { get; set; }
 
         // first row is front
-        public Columns()
+        public Grid()
         {
             rows = new();
         }
 
-        // MakeRowsBasedOnLengthOfShip()
+        public void MakeRowsBasedOnLengthOfShip(int length)
+        {
+
+        }
         
         // When trying to add container, it should add if the row in front of it does not contain a valuable container at the same height
         //  CanAddContainer()

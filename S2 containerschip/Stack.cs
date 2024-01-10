@@ -19,7 +19,7 @@ namespace S2_containerschip
 
         public void AddContainer(Container container)
         {
-            if(CanAddContainer(container))
+            if(CanAddContainerToStack(container))
             {
                 Containers.Add(container);
             } else
@@ -28,7 +28,7 @@ namespace S2_containerschip
             }
         }
 
-        public bool CanAddContainer(Container container)
+        public bool CanAddContainerToStack(Container container)
         {
             if(GetLoadOnBottomContainer() + container.GetWeight() > container.GetMaxLoad())
             {

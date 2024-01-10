@@ -31,7 +31,7 @@ namespace Containership_Tests
             {
                 stack.Containers.Add(container);
             }
-           
+
             // Assert
             Assert.AreEqual(30000, stack.GetLoadOnBottomContainer());
         }
@@ -92,10 +92,10 @@ namespace Containership_Tests
             stack.Containers.Add(NormalContainer);
 
             // Assert
-            Assert.IsTrue(stack.CanAddContainer(NormalContainer));
-            Assert.IsTrue(stack.CanAddContainer(HeavyContainer));
-            Assert.IsTrue(stack.CanAddContainer(ValuableContainer));
-            Assert.IsTrue(stack.CanAddContainer(CooledContainer));
+            Assert.IsTrue(stack.CanAddContainerToStack(NormalContainer));
+            Assert.IsTrue(stack.CanAddContainerToStack(HeavyContainer));
+            Assert.IsTrue(stack.CanAddContainerToStack(ValuableContainer));
+            Assert.IsTrue(stack.CanAddContainerToStack(CooledContainer));
         }
 
         // FEEDBACK VRAGEN: is dit beter?
@@ -104,17 +104,18 @@ namespace Containership_Tests
         {
             // Arrange
             Stack stack = new();
+            stack.Containers.Add(NormalContainer);
+            stack.Containers.Add(NormalContainer);
+            stack.Containers.Add(HeavyContainer);
+            stack.Containers.Add(HeavyContainer);
+            stack.Containers.Add(HeavyContainer);
 
             // Act
             // The load on the first container is 100 000 kg, so it cannot add another heavy container
-            stack.Containers.Add(NormalContainer);
-            stack.Containers.Add(NormalContainer);
-            stack.Containers.Add(HeavyContainer);
-            stack.Containers.Add(HeavyContainer);
-            stack.Containers.Add(HeavyContainer);
+            bool actual = stack.CanAddContainerToStack(HeavyContainer);
 
             // Assert
-            Assert.IsFalse(stack.CanAddContainer(HeavyContainer));
+            Assert.IsFalse(actual);
         }
 
         // FEEDBACK VRAGEN: of is dit beter?
@@ -126,14 +127,14 @@ namespace Containership_Tests
             stack.Containers.Add(ValuableContainer);
 
             // Act
-            bool canAddNormalContainer = stack.CanAddContainer(NormalContainer);
-            bool canAddHeavyContainer = stack.CanAddContainer(HeavyContainer);
-            bool canAddCooledContainer = stack.CanAddContainer(CooledContainer);
-            bool canAddValuableContainer = stack.CanAddContainer(ValuableContainer);
+            bool canAddNormalContainer = stack.CanAddContainerToStack(NormalContainer);
+            bool canAddHeavyContainer = stack.CanAddContainerToStack(HeavyContainer);
+            bool canAddCooledContainer = stack.CanAddContainerToStack(CooledContainer);
+            bool canAddValuableContainer = stack.CanAddContainerToStack(ValuableContainer);
 
             // Assert
             Assert.IsFalse(canAddNormalContainer);
-            Assert.IsFalse(canAddHeavyContainer); 
+            Assert.IsFalse(canAddHeavyContainer);
             Assert.IsFalse(canAddCooledContainer);
             Assert.IsFalse(canAddValuableContainer);
         }
@@ -143,7 +144,7 @@ namespace Containership_Tests
         {
             // Arrange
             Stack stack = new();
-            
+
             // Act
             try
             {
