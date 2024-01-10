@@ -11,13 +11,14 @@ namespace S2_containerschip
     {
         List<Stack> Stacks { get; set; }
 
-        //public Row() {
-        //    Stacks = new();
-        //}
+        public Row()
+        {
+            Stacks = new();
+        }
 
         public void MakeStacksBasedOnWidthOfShip(int shipWidth)
         {
-            for(int i = 0; i < shipWidth; i++) { 
+            for(int i = 0; i < shipWidth - 1; i++) { 
                 Stacks.Add(new Stack());
             }
         }
@@ -28,6 +29,9 @@ namespace S2_containerschip
             {
                 int stackIndex = GetIndexToAdd(container);
                 Stacks[stackIndex].AddContainer(container);
+            } else
+            {
+                throw new InvalidOperationException("Could not add container to a row.");
             }
         }
         

@@ -24,7 +24,7 @@ namespace S2_containerschip
                 Containers.Add(container);
             } else
             {
-                throw new InvalidOperationException("Could not add container.");
+                throw new InvalidOperationException("Could not add container to stack.");
             }
         }
 

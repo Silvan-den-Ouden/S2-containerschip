@@ -34,11 +34,6 @@ namespace S2_containerschip
         {
             int totalContainerWeight = Content + ContainerWeight;
 
-            if (totalContainerWeight > MaxContainerWeight)
-            {
-                throw new InvalidOperationException("Container weight exceeds the maximum limit of 30 tonnes.");
-            }
-
             return totalContainerWeight;
         }
     }

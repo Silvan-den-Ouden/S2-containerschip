@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace Containership_Tests
+﻿namespace Containership_Tests
 {
     [TestClass]
     public class ContainerTests
@@ -92,27 +90,5 @@ namespace Containership_Tests
             // Assert
             Assert.IsTrue(true);
         }
-
-        //[TestMethod]
-        //public void GetWeight_WithExceedingWeight_ShouldThrowException()
-        //{
-        //    // Arrange
-        //    int exceedingContent = 27000; 
-
-        //    Container container = new(exceedingContent, false, false); // this line throws exception
-
-        //    // Act
-        //    try
-        //    {
-        //        container.GetWeight(); // this method should be tested
-        //    }
-        //    catch (InvalidOperationException)
-        //    {
-        //        return;
-        //    }
-
-        //    // Assert
-        //    Assert.Fail("Did not return so no exception was thrown.");
-        //}
     }
 }
