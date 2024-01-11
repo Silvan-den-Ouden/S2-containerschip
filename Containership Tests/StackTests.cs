@@ -129,6 +129,24 @@ namespace Containership_Tests
         }
 
         [TestMethod]
+        public void CanAddContainer_WithoutSpaceToAdd_ShouldReturnFalse2()
+        {
+            // Arrange
+            Stack stack = new();
+            stack.AddContainer(HeavyContainer);
+            stack.AddContainer(HeavyContainer);
+            stack.AddContainer(HeavyContainer);
+            stack.AddContainer(HeavyContainer);
+            stack.AddContainer(HeavyContainer);
+
+            // Act
+            bool result = stack.CanAddContainerToStack(NormalContainer);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
         public void CanAddContainer_WithValuableContainerOnTop_ShouldReturnFalse()
         {
             // Arrange
