@@ -31,6 +31,7 @@ namespace Containership_Tests
             {
                 stack.Containers.Add(container);
             }
+
             // Act
             int loadOnBottomContainer = stack.GetLoadOnBottomContainer();
 

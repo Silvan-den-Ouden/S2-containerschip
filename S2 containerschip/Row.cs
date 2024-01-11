@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace S2_containerschip
+﻿namespace S2_containerschip
 {
     public class Row
     {
-        List<Stack> Stacks { get; set; }
+        public List<Stack> Stacks { get; set; }
 
         public Row()
         {
@@ -18,7 +11,15 @@ namespace S2_containerschip
 
         public void MakeStacksBasedOnWidthOfShip(int shipWidth)
         {
-            for(int i = 0; i < shipWidth - 1; i++) { 
+            if(shipWidth == 0) {
+                throw new InvalidOperationException("Cannot make infinitly small ship.");
+            }
+            if(shipWidth < 0)
+            {
+                throw new InvalidOperationException("Cannot make imaginary ship.");
+            }
+
+            for(int i = 0; i < shipWidth; i++) { 
                 Stacks.Add(new Stack());
             }
         }
@@ -60,11 +61,5 @@ namespace S2_containerschip
 
             return -1;
         }
-
-        // CanAddContainer
-        // should check if stack.CanAddContainer
-        // if container is cooled only can add front row ooga booga
-
-
     }
 }

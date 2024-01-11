@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace S2_containerschip
+﻿namespace S2_containerschip
 {
     public class Container
     {
