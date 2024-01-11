@@ -2,17 +2,29 @@
 {
     public class Grid
     {
-        List<Row> rows { get; set; }
+        List<Row> Rows { get; set; }
 
         // first row is front
         public Grid()
         {
-            rows = new();
+            Rows = new();
         }
 
-        public void MakeRowsBasedOnLengthOfShip(int length)
+        public void MakeRowsBasedOnLengthOfShip(int shipLength)
         {
+            if (shipLength == 0)
+            {
+                throw new InvalidOperationException("Cannot make infinitly small ship.");
+            }
+            if (shipLength < 0)
+            {
+                throw new InvalidOperationException("Cannot make imaginary ship.");
+            }
 
+            for (int i = 0; i < shipLength; i++)
+            {
+                Rows.Add(new Row());
+            }
         }
         
         // When trying to add container, it should add if the row in front of it does not contain a valuable container at the same height

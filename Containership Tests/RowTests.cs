@@ -1,4 +1,5 @@
-﻿namespace Containership_Tests
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+namespace Containership_Tests
 {
     [TestClass]
     public class RowTests
@@ -110,5 +111,56 @@
             Assert.IsFalse(canAddValuableContainer);
             Assert.IsFalse(canAddCooledContainer);
         }
+
+        [TestMethod]
+        public void GetIndexToAdd_WhenIndexAvailableIsZero_ShouldReturnZero()
+        {
+            // Arrange
+            Row row = new();
+            row.MakeStacksBasedOnWidthOfShip(3);
+
+            // Act
+            int index = row.GetIndexToAdd(NormalContainer);
+
+            // Assert
+            Assert.AreEqual(0, index);
+        }
+
+        [TestMethod]
+        public void GetIndexToAdd_WhenIndexAvailableIsOne_ShouldReturnOne()
+        {
+            // Arrange
+            Row row = new();
+            row.MakeStacksBasedOnWidthOfShip(3);
+            for(int i= 1; i <= 5; i++)
+            {
+                row.AddContainer(HeavyContainer);
+            }
+
+            // Act
+            int index = row.GetIndexToAdd(NormalContainer);
+
+            // Assert
+            Assert.AreEqual(1, index);
+        }
+
+        [TestMethod]
+        public void GetIndexToAdd_WhenNoIndexAvailable_ShouldReturnNegetiveOne()
+        {
+            // Arrange
+            Row row = new();
+            row.MakeStacksBasedOnWidthOfShip(3);
+            for (int i = 1; i <= 15; i++)
+            {
+                row.AddContainer(HeavyContainer);
+            }
+
+            // Act
+            int index = row.GetIndexToAdd(NormalContainer);
+
+            // Assert
+            Assert.AreEqual(-1, index);
+        }
+
     }
 }
