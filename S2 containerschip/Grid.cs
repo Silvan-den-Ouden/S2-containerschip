@@ -14,7 +14,7 @@
         {
             if (shipLength == 0)
             {
-                throw new InvalidOperationException("Cannot make infinitly small ship.");
+                throw new InvalidOperationException("Cannot make infinitly thin ship.");
             }
             if (shipLength < 0)
             {

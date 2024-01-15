@@ -12,7 +12,7 @@
         public void MakeStacksBasedOnWidthOfShip(int shipWidth)
         {
             if(shipWidth == 0) {
-                throw new InvalidOperationException("Cannot make infinitly small ship.");
+                throw new InvalidOperationException("Cannot make infinitly thin ship.");
             }
             if(shipWidth < 0)
             {
@@ -26,9 +26,14 @@
 
         public void AddContainer(Container container)
         {
-            if(CanAddContainerToRow(container))
+            int stackIndex = GetIndexToAdd(container);
+            if (stackIndex == -1)
             {
-                int stackIndex = GetIndexToAdd(container);
+                throw new InvalidOperationException("Could not find a row to add container to.");
+            }
+
+            if (CanAddContainerToRow(container))
+            {
                 Stacks[stackIndex].AddContainer(container);
             } else
             {
