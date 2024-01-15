@@ -3,11 +3,9 @@
     public class Stack
     {
         public List<Container> Containers { get; set; }
-        public bool HasValuable { get ; set; }
 
         public Stack() {
             Containers = new();
-            HasValuable = false;    
         }
 
         public void AddContainer(Container container)
@@ -28,6 +26,11 @@
                 return false;
             }
 
+            if(container.Valuable && HasValuable())
+            {
+                return false;
+            }
+
             return true;
         }
 
@@ -40,6 +43,18 @@
             }
 
             return load;
+        }
+
+        public bool HasValuable()
+        {
+            foreach(Container container in Containers)
+            {
+                if (container.Valuable)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
