@@ -38,6 +38,36 @@ namespace Containership_Tests
             Assert.AreEqual(30000, loadOnBottomContainer);
         }
 
+        [TestMethod] 
+        public void HasValuable_DoesHaveValuable_ShouldReturnTrue()
+        {
+            // Arrange
+            Stack stack = new();
+            stack.Containers.Add(ValuableContainer);
+
+            // Act
+            bool result = stack.HasValuable();
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void HasValuable_DoesNotHaveValuable_ShouldReturnFalse()
+        {
+            // Arrange
+            Stack stack = new();
+            stack.Containers.Add(NormalContainer);
+            stack.Containers.Add(HeavyContainer);
+            stack.Containers.Add(CooledContainer);
+
+            // Act
+            bool result = stack.HasValuable();
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
         [TestMethod]
         public void CanAddContainer_WithSpaceToAdd_ShouldAllReturnTrue()
         {
