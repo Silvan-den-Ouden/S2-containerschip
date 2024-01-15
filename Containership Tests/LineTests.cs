@@ -2,7 +2,7 @@
 namespace Containership_Tests
 {
     [TestClass]
-    public class RowTests
+    public class LineTests
     {
         readonly Container NormalContainer = new(6000, false, false);
         readonly Container HeavyContainer = new(26000, false, false);
@@ -10,17 +10,17 @@ namespace Containership_Tests
         readonly Container CooledContainer = new(6000, true, false);
 
         [TestMethod]
-        public void MakeRowsBasedOnWidth_ValidWidth_ShouldReturnCorrectAmountOfRows()
+        public void MakeLinesBasedOnWidth_ValidWidth_ShouldReturnCorrectAmountOfLines()
         {
             // Arrange
-            Row rowOdd = new();
-            Row rowEven = new();
-            rowOdd.MakeStacksBasedOnWidthOfShip(5);
-            rowEven.MakeStacksBasedOnWidthOfShip(6);
+            Line lineOdd = new();
+            Line lineEven = new();
+            lineOdd.MakeLinesBasedOnWidthOfShip(5);
+            lineEven.MakeLinesBasedOnWidthOfShip(6);
 
             // Act
-            int lengthOdd = rowOdd.Stacks.Count();
-            int lengthEven = rowEven.Stacks.Count();
+            int lengthOdd = lineOdd.Stacks.Count;
+            int lengthEven = lineEven.Stacks.Count;
 
             // Assert
             Assert.AreEqual(5, lengthOdd);
@@ -28,15 +28,15 @@ namespace Containership_Tests
         }
 
         [TestMethod]
-        public void MakeRowsBasedOnWidth_EmptyWidth_ShouldThrowException()
+        public void MakeLinesBasedOnWidth_EmptyWidth_ShouldThrowException()
         {
             // Arrange
-            Row rowEmpty = new();
+            Line lineEmpty = new();
 
             // Act
             try
             {
-                rowEmpty.MakeStacksBasedOnWidthOfShip(0);
+                lineEmpty.MakeLinesBasedOnWidthOfShip(0);
             }
             catch (InvalidOperationException)
             {
@@ -48,15 +48,15 @@ namespace Containership_Tests
         }
 
         [TestMethod]
-        public void MakeRowsBasedOnWidth_NegativeWidth_ShouldThrowException()
+        public void MakeLinesBasedOnWidth_NegativeWidth_ShouldThrowException()
         {
             // Arrange
-            Row rowNegative = new();
+            Line lineNegative = new();
 
             // Act
             try
             {
-                rowNegative.MakeStacksBasedOnWidthOfShip(-1);
+                lineNegative.MakeLinesBasedOnWidthOfShip(-1);
             }
             catch (InvalidOperationException)
             {
@@ -71,14 +71,14 @@ namespace Containership_Tests
         public void CanAddContainer_WithSpaceToAdd_ShouldAllReturnTrue()
         {
             // Arrange
-            Row row = new();
-            row.MakeStacksBasedOnWidthOfShip(2);
+            Line line = new();
+            line.MakeLinesBasedOnWidthOfShip(2);
 
             // Act
-            bool canAddNormalContainer = row.CanAddContainerToRow(NormalContainer);
-            bool canAddHeavyContainer = row.CanAddContainerToRow(HeavyContainer);
-            bool canAddValuableContainer = row.CanAddContainerToRow(ValuableContainer);
-            bool canAddCooledContainer = row.CanAddContainerToRow(CooledContainer);
+            bool canAddNormalContainer = line.CanAddContainerToLine(NormalContainer);
+            bool canAddHeavyContainer = line.CanAddContainerToLine(HeavyContainer);
+            bool canAddValuableContainer = line.CanAddContainerToLine(ValuableContainer);
+            bool canAddCooledContainer = line.CanAddContainerToLine(CooledContainer);
 
             // Assert
             Assert.IsTrue(canAddNormalContainer);
@@ -91,19 +91,19 @@ namespace Containership_Tests
         public void CanAddContainer_WithoutSpaceToAdd_ShouldReturnFalse()
         {
             // Arrange
-            Row row = new();
-            row.MakeStacksBasedOnWidthOfShip(3);
+            Line line = new();
+            line.MakeLinesBasedOnWidthOfShip(3);
 
             //fill all available stacks with 5 heavy containers
             for(int i = 1; i <= 15; i++) {
-                row.AddContainer(HeavyContainer);
+                line.AddContainer(HeavyContainer);
             }
 
             // Act
-            bool canAddNormalContainer = row.CanAddContainerToRow(NormalContainer);
-            bool canAddHeavyContainer = row.CanAddContainerToRow(HeavyContainer);
-            bool canAddValuableContainer = row.CanAddContainerToRow(ValuableContainer);
-            bool canAddCooledContainer = row.CanAddContainerToRow(CooledContainer);
+            bool canAddNormalContainer = line.CanAddContainerToLine(NormalContainer);
+            bool canAddHeavyContainer = line.CanAddContainerToLine(HeavyContainer);
+            bool canAddValuableContainer = line.CanAddContainerToLine(ValuableContainer);
+            bool canAddCooledContainer = line.CanAddContainerToLine(CooledContainer);
 
             // Assert
             Assert.IsFalse(canAddNormalContainer);
@@ -116,11 +116,11 @@ namespace Containership_Tests
         public void GetIndexToAdd_WhenIndexAvailableIsZero_ShouldReturnZero()
         {
             // Arrange
-            Row row = new();
-            row.MakeStacksBasedOnWidthOfShip(3);
+            Line line = new();
+            line.MakeLinesBasedOnWidthOfShip(3);
 
             // Act
-            int index = row.GetIndexToAdd(NormalContainer);
+            int index = line.GetIndexToAdd(NormalContainer);
 
             // Assert
             Assert.AreEqual(0, index);
@@ -130,15 +130,15 @@ namespace Containership_Tests
         public void GetIndexToAdd_WhenIndexAvailableIsOne_ShouldReturnOne()
         {
             // Arrange
-            Row row = new();
-            row.MakeStacksBasedOnWidthOfShip(3);
+            Line line = new();
+            line.MakeLinesBasedOnWidthOfShip(3);
             for(int i= 1; i <= 5; i++)
             {
-                row.AddContainer(HeavyContainer);
+                line.AddContainer(HeavyContainer);
             }
 
             // Act
-            int index = row.GetIndexToAdd(NormalContainer);
+            int index = line.GetIndexToAdd(NormalContainer);
 
             // Assert
             Assert.AreEqual(1, index);
@@ -148,15 +148,15 @@ namespace Containership_Tests
         public void GetIndexToAdd_WhenNoIndexAvailable_ShouldReturnNegetiveOne()
         {
             // Arrange
-            Row row = new();
-            row.MakeStacksBasedOnWidthOfShip(3);
+            Line line = new();
+            line.MakeLinesBasedOnWidthOfShip(3);
             for (int i = 1; i <= 15; i++)
             {
-                row.AddContainer(HeavyContainer);
+                line.AddContainer(HeavyContainer);
             }
 
             // Act
-            int index = row.GetIndexToAdd(NormalContainer);
+            int index = line.GetIndexToAdd(NormalContainer);
 
             // Assert
             Assert.AreEqual(-1, index);
