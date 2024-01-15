@@ -26,47 +26,88 @@
 
         public void AddContainer(Container container)
         {
-            int stackIndex = GetIndexToAdd(container);
-            if (stackIndex == -1)
-            {
-                throw new InvalidOperationException("Could not find a line to add container to.");
-            }
-
-            if (CanAddContainerToLine(container))
-            {
-                Stacks[stackIndex].AddContainer(container);
-            } else
-            {
-                throw new InvalidOperationException("Could not add container to a line.");
-            }
-        }
-        
-        public bool CanAddContainerToLine(Container container)
-        {
-            foreach(Stack stack in Stacks)
-            {
-                if (stack.CanAddContainerToStack(container))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public int GetIndexToAdd(Container container)
-        {
             for(int i = 0; i < Stacks.Count; i++)
             {
-                if (Stacks[i].CanAddContainerToStack(container))
+                if(CanAddContainer(container, i))
                 {
-                    return i;
+                    Stacks[i].AddContainer(container);
+                } else
+                {
+                    throw new InvalidOperationException($"Could not add container to line {i + 1}.");
+                }
+            }
+        }
+
+        // FEEDBACK VRAGEN: should I have multiple or juse one return?
+        public bool CanAddContainer(Container container, int index)
+        {
+            bool result = false;
+
+            if (ShouldAddContainer(index))
+            {
+                if (container.Valuable && CanAddValuableContainer(index))
+                {
+                    result = true;
+                }
+                else if (container.Cooled && CanAddCoolableContainer(index))
+                {
+                    result = true;
+                }
+                else if (!container.Cooled && !container.Valuable)
+                {
+                    result = true;
                 }
             }
 
-            return -1;
+            return result;
         }
 
+        public bool ShouldAddContainer(int index)
+        {
+            bool stackBehindHasValuable = Stacks[index + 1].HasValuable();
+            bool stackInFrontHasValuable = Stacks[index - 1].HasValuable();
+            int heightOfStackBehind = Stacks[index + 1].Containers.Count;
+            int heightOfStackInFront = Stacks[index - 1].Containers.Count;
 
+            int futureHeightOfStack = Stacks[index].Containers.Count + 1;
+
+            if ((index + 1) % 3 == 0)
+            {
+                if (stackBehindHasValuable && futureHeightOfStack >= heightOfStackBehind)
+                {
+                    return false;
+                }
+                if (stackInFrontHasValuable && futureHeightOfStack >= heightOfStackInFront)
+                {
+                    return false; 
+                }
+            }
+
+            return true;
+        }
+
+        public bool CanAddValuableContainer(int index)
+        {
+            if ((index + 1) % 3 == 0) {
+                return false;
+            }
+
+            if (Stacks[index].HasValuable())
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool CanAddCoolableContainer(int index)
+        {
+            if (Stacks.Count - 1 == index)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }
