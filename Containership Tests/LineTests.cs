@@ -10,13 +10,13 @@ namespace Containership_Tests
         readonly Container CooledContainer = new(6000, true, false);
 
         [TestMethod]
-        public void MakeLinesBasedOnWidth_ValidWidth_ShouldReturnCorrectAmountOfLines()
+        public void MakeLineBasedOnLength_ValidWidth_ShouldReturnCorrectAmountOfLines()
         {
             // Arrange
             Line lineOdd = new();
             Line lineEven = new();
-            lineOdd.MakeLinesBasedOnWidthOfShip(5);
-            lineEven.MakeLinesBasedOnWidthOfShip(6);
+            lineOdd.MakeLineBasedOnLengthOfShip(5);
+            lineEven.MakeLineBasedOnLengthOfShip(6);
 
             // Act
             int lengthOdd = lineOdd.Stacks.Count;
@@ -28,7 +28,7 @@ namespace Containership_Tests
         }
 
         [TestMethod]
-        public void MakeLinesBasedOnWidth_EmptyWidth_ShouldThrowException()
+        public void MakeLineBasedOnLength_EmptyWidth_ShouldThrowException()
         {
             // Arrange
             Line lineEmpty = new();
@@ -36,7 +36,7 @@ namespace Containership_Tests
             // Act
             try
             {
-                lineEmpty.MakeLinesBasedOnWidthOfShip(0);
+                lineEmpty.MakeLineBasedOnLengthOfShip(0);
             }
             catch (InvalidOperationException)
             {
@@ -56,7 +56,7 @@ namespace Containership_Tests
             // Act
             try
             {
-                lineNegative.MakeLinesBasedOnWidthOfShip(-1);
+                lineNegative.MakeLineBasedOnLengthOfShip(-1);
             }
             catch (InvalidOperationException)
             {
@@ -72,7 +72,7 @@ namespace Containership_Tests
         {
             // Arrange
             Line line = new();
-            line.MakeLinesBasedOnWidthOfShip(2);
+            line.MakeLineBasedOnLengthOfShip(2);
 
             // Act
             bool canAddNormalContainer = line.CanAddContainerToLine(NormalContainer);
@@ -92,7 +92,7 @@ namespace Containership_Tests
         {
             // Arrange
             Line line = new();
-            line.MakeLinesBasedOnWidthOfShip(3);
+            line.MakeLineBasedOnLengthOfShip(3);
 
             //fill all available stacks with 5 heavy containers
             for(int i = 1; i <= 15; i++) {
@@ -117,7 +117,7 @@ namespace Containership_Tests
         {
             // Arrange
             Line line = new();
-            line.MakeLinesBasedOnWidthOfShip(3);
+            line.MakeLineBasedOnLengthOfShip(3);
 
             // Act
             int index = line.GetIndexToAdd(NormalContainer);
@@ -131,7 +131,7 @@ namespace Containership_Tests
         {
             // Arrange
             Line line = new();
-            line.MakeLinesBasedOnWidthOfShip(3);
+            line.MakeLineBasedOnLengthOfShip(3);
             for(int i= 1; i <= 5; i++)
             {
                 line.AddContainer(HeavyContainer);
@@ -149,7 +149,7 @@ namespace Containership_Tests
         {
             // Arrange
             Line line = new();
-            line.MakeLinesBasedOnWidthOfShip(3);
+            line.MakeLineBasedOnLengthOfShip(3);
             for (int i = 1; i <= 15; i++)
             {
                 line.AddContainer(HeavyContainer);

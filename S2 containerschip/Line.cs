@@ -9,17 +9,17 @@
             Stacks = new();
         }
 
-        public void MakeLinesBasedOnWidthOfShip(int shipWidth)
+        public void MakeLineBasedOnLengthOfShip(int shipLength)
         {
-            if(shipWidth == 0) {
+            if(shipLength == 0) {
                 throw new InvalidOperationException("Cannot make infinitly thin ship.");
             }
-            if(shipWidth < 0)
+            if(shipLength < 0)
             {
                 throw new InvalidOperationException("Cannot make imaginary ship.");
             }
 
-            for(int i = 0; i < shipWidth; i++) { 
+            for(int i = 0; i < shipLength; i++) { 
                 Stacks.Add(new Stack());
             }
         }
@@ -66,5 +66,7 @@
 
             return -1;
         }
+
+
     }
 }
