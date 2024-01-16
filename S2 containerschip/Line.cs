@@ -28,7 +28,7 @@
         {
             for(int i = 0; i < Stacks.Count; i++)
             {
-                if(CanAddContainer(container, i))
+                if(CanAddContainerToLine(container, i))
                 {
                     Stacks[i].AddContainer(container);
                 } else
@@ -39,7 +39,7 @@
         }
 
         // FEEDBACK VRAGEN: should I have multiple or juse one return?
-        public bool CanAddContainer(Container container, int index)
+        public bool CanAddContainerToLine(Container container, int index)
         {
             bool result = false;
 
@@ -64,10 +64,15 @@
 
         public bool ShouldAddContainer(int index)
         {
-            bool stackBehindHasValuable = Stacks[index + 1].HasValuable();
-            bool stackInFrontHasValuable = Stacks[index - 1].HasValuable();
-            int heightOfStackBehind = Stacks[index + 1].Containers.Count;
-            int heightOfStackInFront = Stacks[index - 1].Containers.Count;
+            if (index < 0 || index >= Stacks.Count)
+            {
+                return false;
+            }
+
+            bool stackBehindHasValuable = (index + 1 < Stacks.Count) && Stacks[index + 1].HasValuable();
+            bool stackInFrontHasValuable = (index - 1 >= 0) && Stacks[index - 1].HasValuable();
+            int heightOfStackBehind = stackBehindHasValuable ? Stacks[index + 1].Containers.Count : -1;
+            int heightOfStackInFront = stackInFrontHasValuable ? Stacks[index - 1].Containers.Count : -1;
 
             int futureHeightOfStack = Stacks[index].Containers.Count + 1;
 
@@ -75,11 +80,17 @@
             {
                 if (stackBehindHasValuable && futureHeightOfStack >= heightOfStackBehind)
                 {
-                    return false;
+                    if (heightOfStackBehind != -1)
+                    {
+                        return false;
+                    }
                 }
                 if (stackInFrontHasValuable && futureHeightOfStack >= heightOfStackInFront)
                 {
-                    return false; 
+                    if (heightOfStackInFront != -1)
+                    {
+                        return false;
+                    }
                 }
             }
 

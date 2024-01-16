@@ -75,10 +75,10 @@ namespace Containership_Tests
             line.MakeLineBasedOnLengthOfShip(2);
 
             // Act
-            bool canAddNormalContainer = line.CanAddContainerToLine(NormalContainer);
-            bool canAddHeavyContainer = line.CanAddContainerToLine(HeavyContainer);
-            bool canAddValuableContainer = line.CanAddContainerToLine(ValuableContainer);
-            bool canAddCooledContainer = line.CanAddContainerToLine(CooledContainer);
+            bool canAddValuableContainer = line.CanAddContainerToLine(ValuableContainer, 0);
+            bool canAddNormalContainer = line.CanAddContainerToLine(NormalContainer, 0);
+            bool canAddHeavyContainer = line.CanAddContainerToLine(HeavyContainer, 0);
+            bool canAddCooledContainer = line.CanAddContainerToLine(CooledContainer, 0);
 
             // Assert
             Assert.IsTrue(canAddNormalContainer);
@@ -100,10 +100,10 @@ namespace Containership_Tests
             }
 
             // Act
-            bool canAddNormalContainer = line.CanAddContainerToLine(NormalContainer);
-            bool canAddHeavyContainer = line.CanAddContainerToLine(HeavyContainer);
-            bool canAddValuableContainer = line.CanAddContainerToLine(ValuableContainer);
-            bool canAddCooledContainer = line.CanAddContainerToLine(CooledContainer);
+            bool canAddNormalContainer = line.CanAddContainerToLine(NormalContainer, 1);
+            bool canAddHeavyContainer = line.CanAddContainerToLine(HeavyContainer, 1);
+            bool canAddValuableContainer = line.CanAddContainerToLine(ValuableContainer, 1);
+            bool canAddCooledContainer = line.CanAddContainerToLine(CooledContainer, 1);
 
             // Assert
             Assert.IsFalse(canAddNormalContainer);
@@ -111,56 +111,5 @@ namespace Containership_Tests
             Assert.IsFalse(canAddValuableContainer);
             Assert.IsFalse(canAddCooledContainer);
         }
-
-        [TestMethod]
-        public void GetIndexToAdd_WhenIndexAvailableIsZero_ShouldReturnZero()
-        {
-            // Arrange
-            Line line = new();
-            line.MakeLineBasedOnLengthOfShip(3);
-
-            // Act
-            int index = line.GetIndexToAdd(NormalContainer);
-
-            // Assert
-            Assert.AreEqual(0, index);
-        }
-
-        [TestMethod]
-        public void GetIndexToAdd_WhenIndexAvailableIsOne_ShouldReturnOne()
-        {
-            // Arrange
-            Line line = new();
-            line.MakeLineBasedOnLengthOfShip(3);
-            for(int i= 1; i <= 5; i++)
-            {
-                line.AddContainer(HeavyContainer);
-            }
-
-            // Act
-            int index = line.GetIndexToAdd(NormalContainer);
-
-            // Assert
-            Assert.AreEqual(1, index);
-        }
-
-        [TestMethod]
-        public void GetIndexToAdd_WhenNoIndexAvailable_ShouldReturnNegetiveOne()
-        {
-            // Arrange
-            Line line = new();
-            line.MakeLineBasedOnLengthOfShip(3);
-            for (int i = 1; i <= 15; i++)
-            {
-                line.AddContainer(HeavyContainer);
-            }
-
-            // Act
-            int index = line.GetIndexToAdd(NormalContainer);
-
-            // Assert
-            Assert.AreEqual(-1, index);
-        }
-
     }
 }
