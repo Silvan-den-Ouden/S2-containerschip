@@ -75,10 +75,10 @@ namespace Containership_Tests
             line.MakeLineBasedOnLengthOfShip(2);
 
             // Act
-            bool canAddValuableContainer = line.CanAddContainerToLine(ValuableContainer, 0);
-            bool canAddNormalContainer = line.CanAddContainerToLine(NormalContainer, 0);
-            bool canAddHeavyContainer = line.CanAddContainerToLine(HeavyContainer, 0);
-            bool canAddCooledContainer = line.CanAddContainerToLine(CooledContainer, 0);
+            bool canAddValuableContainer = line.LineCanAddContainer(ValuableContainer, 0);
+            bool canAddNormalContainer = line.LineCanAddContainer(NormalContainer, 0);
+            bool canAddHeavyContainer = line.LineCanAddContainer(HeavyContainer, 0);
+            bool canAddCooledContainer = line.LineCanAddContainer(CooledContainer, 0);
 
             // Assert
             Assert.IsTrue(canAddNormalContainer);
@@ -88,28 +88,64 @@ namespace Containership_Tests
         }
 
         [TestMethod]
-        public void CanAddContainer_WithoutSpaceToAdd_ShouldReturnFalse()
+        public void CanAddContainer_WithSpaceToAdd_ShouldReturnTrue()
+        {
+            // Arrange
+            Line line = new();
+            line.MakeLineBasedOnLengthOfShip(2);
+            bool couldAddValuableContainer = false;
+            bool couldAddCooledContainer = false;
+            bool couldAddNormalContainer = false;
+
+
+            // Act
+            for (int i = 0; i < line.Stacks.Count; i++)
+            {
+                if (line.LineCanAddContainer(ValuableContainer, i)){
+                    couldAddValuableContainer = true;
+                }
+                if (line.LineCanAddContainer(ValuableContainer, i))
+                {
+                    couldAddCooledContainer = true;
+                }
+                if (line.LineCanAddContainer(ValuableContainer, i))
+                {
+                    couldAddNormalContainer = true;
+                }
+            }
+
+            // Assert
+            Assert.IsTrue(couldAddValuableContainer); 
+            Assert.IsTrue(couldAddCooledContainer);
+            Assert.IsTrue(couldAddNormalContainer);
+
+        }
+
+        [TestMethod]
+        public void AddContainer_WithoutSpaceToAdd_ShouldThrowException()
         {
             // Arrange
             Line line = new();
             line.MakeLineBasedOnLengthOfShip(3);
 
             //fill all available stacks with 5 heavy containers
-            for(int i = 1; i <= 15; i++) {
+            for (int i = 1; i <= 15; i++) {
                 line.AddContainer(HeavyContainer);
             }
 
             // Act
-            bool canAddNormalContainer = line.CanAddContainerToLine(NormalContainer, 1);
-            bool canAddHeavyContainer = line.CanAddContainerToLine(HeavyContainer, 1);
-            bool canAddValuableContainer = line.CanAddContainerToLine(ValuableContainer, 1);
-            bool canAddCooledContainer = line.CanAddContainerToLine(CooledContainer, 1);
+            try
+            {
+                line.AddContainer(ValuableContainer);
+            }
+            catch
+            {
+                return;
+            }
+            
 
             // Assert
-            Assert.IsFalse(canAddNormalContainer);
-            Assert.IsFalse(canAddHeavyContainer);
-            Assert.IsFalse(canAddValuableContainer);
-            Assert.IsFalse(canAddCooledContainer);
+            Assert.Fail("Did not throw expected exception.");
         }
     }
 }
