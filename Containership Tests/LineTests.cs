@@ -1,4 +1,6 @@
-﻿namespace Containership_Tests
+﻿using System.Security.Cryptography.X509Certificates;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+namespace Containership_Tests
 {
     [TestClass]
     public class LineTests
@@ -167,17 +169,52 @@
         [TestMethod]
         [DataRow(0, true)] // Valid index
         [DataRow(2, false)] // Invalid index
+        [DataRow(5, true)] // Valid (last) index
         public void CanAddValuableContainer_ShouldReturnExpectedResult(int stackIndex, bool expectedResult)
         {
             // Arrange
             Line line = new();
-            line.MakeLineBasedOnLengthOfShip(5);
+            line.MakeLineBasedOnLengthOfShip(6);
 
             // Act
             bool canAddValuableContainer = line.CanAddValuableContainer(stackIndex);
 
             // Assert
             Assert.AreEqual(expectedResult, canAddValuableContainer);
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(1)]
+        [DataRow(2)]
+        [DataRow(3)]
+        public void ShouldAddContainer_EmptyLineValidInput_ShouldReturnTrue(int stackIndex)
+        {
+            // Arrange
+            Line line = new();
+            line.MakeLineBasedOnLengthOfShip(4);
+
+            // Act
+            bool result = line.ShouldAddContainer(stackIndex);
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        [DataRow(-1)]
+        [DataRow(4)]
+        public void ShouldAddContainer_EmptyLineInValidInput_ShouldReturnFalse(int stackIndex)
+        {
+            // Arrange
+            Line line = new();
+            line.MakeLineBasedOnLengthOfShip(4);
+
+            // Act
+            bool result = line.ShouldAddContainer(stackIndex);
+
+            // Assert
+            Assert.IsFalse(result);
         }
     }
 }

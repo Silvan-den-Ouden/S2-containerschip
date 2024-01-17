@@ -109,7 +109,13 @@
 
         public bool CanAddValuableContainer(int index)
         {
-            if ((index + 1) % 3 == 0 || index == Stacks.Count - 1) {
+            if (index == Stacks.Count - 1)
+            {
+                return true;
+            }
+
+            if ((index + 1) % 3 == 0)
+            {
                 return false;
             }
 
