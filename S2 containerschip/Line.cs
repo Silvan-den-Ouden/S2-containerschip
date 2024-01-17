@@ -11,15 +11,15 @@
 
         public void MakeLineBasedOnLengthOfShip(int shipLength)
         {
-            if(shipLength == 0) {
+            if (shipLength == 0) {
                 throw new InvalidOperationException("Cannot make infinitly thin ship.");
             }
-            if(shipLength < 0)
+            if (shipLength < 0)
             {
                 throw new InvalidOperationException("Cannot make imaginary ship.");
             }
 
-            for(int i = 0; i < shipLength; i++) { 
+            for (int i = 0; i < shipLength; i++) {
                 Stacks.Add(new Stack());
             }
         }
@@ -41,7 +41,7 @@
                 }
             }
 
-            if(!addedContainer)
+            if (!addedContainer)
             {
                 throw new InvalidOperationException("Could not add container to any line");
             }
@@ -59,7 +59,7 @@
                 {
                     result = true;
                 }
-                else if (container.Cooled && CanAddCoolableContainer(stackIndex))
+                else if (container.Cooled && CanAddCooledContainer(stackIndex))
                 {
                     result = true;
                 }
@@ -109,7 +109,7 @@
 
         public bool CanAddValuableContainer(int index)
         {
-            if ((index + 1) % 3 == 0) {
+            if ((index + 1) % 3 == 0 || index == Stacks.Count - 1) {
                 return false;
             }
 
@@ -121,9 +121,9 @@
             return true;
         }
 
-        public bool CanAddCoolableContainer(int index)
+        public bool CanAddCooledContainer(int index)
         {
-            if (Stacks.Count - 1 == index)
+            if (Stacks.Count - 1 != index)
             {
                 return false;
             }

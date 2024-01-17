@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-namespace Containership_Tests
+﻿namespace Containership_Tests
 {
     [TestClass]
     public class LineTests
@@ -78,7 +77,7 @@ namespace Containership_Tests
             bool canAddValuableContainer = line.LineCanAddContainer(ValuableContainer, 0);
             bool canAddNormalContainer = line.LineCanAddContainer(NormalContainer, 0);
             bool canAddHeavyContainer = line.LineCanAddContainer(HeavyContainer, 0);
-            bool canAddCooledContainer = line.LineCanAddContainer(CooledContainer, 0);
+            bool canAddCooledContainer = line.LineCanAddContainer(CooledContainer, 1);
 
             // Assert
             Assert.IsTrue(canAddNormalContainer);
@@ -146,6 +145,39 @@ namespace Containership_Tests
 
             // Assert
             Assert.Fail("Did not throw expected exception.");
+        }
+
+
+        [TestMethod]
+        [DataRow(2, true)]  // Valid Index
+        [DataRow(1, false)] // Invalid Index
+        public void CanAddCoolableContainer_ShouldReturnExpectedResult(int stackIndex, bool expectedResult)
+        {
+            // Arrange
+            Line line = new();
+            line.MakeLineBasedOnLengthOfShip(3);
+
+            // Act
+            bool canAddCooledContainer = line.CanAddCooledContainer(stackIndex);
+
+            // Assert
+            Assert.AreEqual(expectedResult, canAddCooledContainer);
+        }
+
+        [TestMethod]
+        [DataRow(0, true)] // Valid index
+        [DataRow(2, false)] // Invalid index
+        public void CanAddValuableContainer_ShouldReturnExpectedResult(int stackIndex, bool expectedResult)
+        {
+            // Arrange
+            Line line = new();
+            line.MakeLineBasedOnLengthOfShip(5);
+
+            // Act
+            bool canAddValuableContainer = line.CanAddValuableContainer(stackIndex);
+
+            // Assert
+            Assert.AreEqual(expectedResult, canAddValuableContainer);
         }
     }
 }

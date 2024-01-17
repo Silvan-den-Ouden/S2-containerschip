@@ -13,7 +13,6 @@ namespace Containership_Tests
         //  Functies callen die al eerder getest zijn (.AddContainer();)
         //  of built in functies gebruiken (containers.Add();)
         
-
         [TestMethod]
         public void GetStackWeight_ReturnsCorrectLoad()
         {

@@ -4,7 +4,6 @@
     {
         List<Line> Rows { get; set; }
 
-        // first row is front
         public Grid()
         {
             Rows = new();
@@ -32,10 +31,11 @@
 
         }
 
-        
-        // When trying to add container, it should add if the row in front of it does not contain a valuable container at the same height
-        //  CanAddContainer()
-        //  Row.CanAddContainer should be true
-        //  Check the thingie above aswell
+        // needs:
+        // width
+        // length
+        // max carry capacity
+        // functionality so it doesnt capsize
+        // checks so that 50% of the max ship weight is used
     }
 }
