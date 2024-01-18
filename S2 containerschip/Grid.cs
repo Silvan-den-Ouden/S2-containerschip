@@ -2,14 +2,14 @@
 {
     public class Grid
     {
-        List<Line> Rows { get; set; }
+        List<Line> Lines { get; set; }
 
         public Grid()
         {
-            Rows = new();
+            Lines = new();
         }
 
-        public void MakeRowsBasedOnLengthOfShip(int shipLength)
+        public void MakeLinesBasedOnLengthOfShip(int shipLength)
         {
             if (shipLength == 0)
             {
@@ -22,16 +22,44 @@
 
             for (int i = 0; i < shipLength; i++)
             {
-                Rows.Add(new Line());
+                Lines.Add(new Line());
             }
         }
 
-        public void AddContainer()
+        public void AddContainer(Container container)
         {
+            if(CanPlaceInMiddleLine(container) != -1)
+            {
+                Lines[CanPlaceInMiddleLine(container)].AddContainer(container);
+            } else
+            {
 
+            }
         }
 
-        
+        public int CanPlaceInMiddleLine(Container container)
+        {
+            int MiddleIndex = -1;
+
+            if (Lines.Count % 2 != 0 && Lines[(Lines.Count - 1) / 2].LineCanAddContainer(container) != -1)
+            {
+                MiddleIndex = (Lines.Count - 1) / 2;
+            }
+
+            return MiddleIndex;
+        }
+
+        public int GetTotalWeight()
+        {
+            int totalWeight = 0;
+
+            foreach(Line line in Lines) 
+            { 
+                totalWeight += line.GetLineWeight();
+            }
+
+            return totalWeight;
+        }
 
         // needs:
         // width

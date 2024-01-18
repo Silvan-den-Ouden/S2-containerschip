@@ -36,13 +36,13 @@
 
         public int GetStackWeight()
         {
-            int load = 0;
+            int stackWeight = 0;
 
             for(int i = 0; i < Containers.Count; i++) {
-                load += Containers[i].GetWeight();
+                stackWeight += Containers[i].GetWeight();
             }
 
-            return load;
+            return stackWeight;
         }
 
         public bool HasValuable()

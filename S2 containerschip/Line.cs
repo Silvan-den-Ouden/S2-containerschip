@@ -28,45 +28,47 @@
         {
             bool addedContainer = false;
 
-            for (int i = 0; i < Stacks.Count; i++)
+            
+            if (LineCanAddContainer(container) != -1)
             {
-                if (LineCanAddContainer(container, i))
+                int stackIndex = LineCanAddContainer(container);
+                if (Stacks[stackIndex].CanAddContainerToStack(container))
                 {
-                    if (Stacks[i].CanAddContainerToStack(container))
-                    {
-                        Stacks[i].AddContainer(container);
-                        addedContainer = true;
-                        break;
-                    }
+                    Stacks[stackIndex].AddContainer(container);
+                    addedContainer = true;
                 }
             }
+            
 
             if (!addedContainer)
             {
-                throw new InvalidOperationException("Could not add container to any line");
+                throw new InvalidOperationException("Could not add container to line");
             }
 
         }
 
-        public bool LineCanAddContainer(Container container, int stackIndex)
+        public int LineCanAddContainer(Container container)
         {
-            if (ShouldAddContainer(stackIndex))
+            for (int stackIndex = 0; stackIndex < Stacks.Count; stackIndex++)
             {
-                if (container.Valuable && CanAddValuableContainer(stackIndex))
+                if (ShouldAddContainer(stackIndex))
                 {
-                    return true;
-                }
-                else if (container.Cooled && CanAddCooledContainer(stackIndex))
-                {
-                    return true;
-                }
-                else if (!container.Cooled && !container.Valuable)
-                {
-                    return true;
+                    if (container.Valuable && CanAddValuableContainer(stackIndex))
+                    {
+                        return stackIndex;
+                    }
+                    else if (container.Cooled && CanAddCooledContainer(stackIndex))
+                    {
+                        return stackIndex;
+                    }
+                    else if (!container.Cooled && !container.Valuable)
+                    {
+                        return stackIndex;
+                    }
                 }
             }
 
-            return false;
+            return -1;
         }
 
         public bool ShouldAddContainer(int stackIndex)
@@ -127,6 +129,18 @@
             }
 
             return true;
+        }
+
+        public int GetLineWeight()
+        {
+            int lineWeight = 0;
+
+            foreach(Stack stack in Stacks)
+            {
+                lineWeight += stack.GetStackWeight()
+            }
+
+            return lineWeight;
         }
     }
 }
