@@ -79,7 +79,7 @@ namespace Containership_Tests
             bool canAddValuableContainer = line.LineCanAddContainer(ValuableContainer, 0);
             bool canAddNormalContainer = line.LineCanAddContainer(NormalContainer, 0);
             bool canAddHeavyContainer = line.LineCanAddContainer(HeavyContainer, 0);
-            bool canAddCooledContainer = line.LineCanAddContainer(CooledContainer, 1);
+            bool canAddCooledContainer = line.LineCanAddContainer(CooledContainer, 0);
 
             // Assert
             Assert.IsTrue(canAddNormalContainer);
@@ -151,7 +151,7 @@ namespace Containership_Tests
 
 
         [TestMethod]
-        [DataRow(2, true)]  // Valid Index
+        [DataRow(0, true)]  // Valid Index
         [DataRow(1, false)] // Invalid Index
         public void CanAddCoolableContainer_ShouldReturnExpectedResult(int stackIndex, bool expectedResult)
         {
@@ -169,12 +169,11 @@ namespace Containership_Tests
         [TestMethod]
         [DataRow(0, true)] // Valid index
         [DataRow(2, false)] // Invalid index
-        [DataRow(5, true)] // Valid (last) index
         public void CanAddValuableContainer_ShouldReturnExpectedResult(int stackIndex, bool expectedResult)
         {
             // Arrange
             Line line = new();
-            line.MakeLineBasedOnLengthOfShip(6);
+            line.MakeLineBasedOnLengthOfShip(5);
 
             // Act
             bool canAddValuableContainer = line.CanAddValuableContainer(stackIndex);
@@ -212,6 +211,29 @@ namespace Containership_Tests
 
             // Act
             bool result = line.ShouldAddContainer(stackIndex);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void ShouldAddContainer_CannotMakeThirdStackHigherThanStackBehind_ShouldReturnFalse()
+        {
+            // Arrange
+            Line line = new();
+            line.MakeLineBasedOnLengthOfShip(4);
+            List<Container> containers = new()
+            {
+                ValuableContainer, ValuableContainer,
+            };
+
+            for(int i = 0; i < containers.Count; i++)
+            {
+                line.AddContainer(containers[i]);
+            }
+
+            // Act
+            bool result = line.ShouldAddContainer(2);
 
             // Assert
             Assert.IsFalse(result);

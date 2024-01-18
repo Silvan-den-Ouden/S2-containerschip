@@ -48,28 +48,25 @@
 
         }
 
-        // FEEDBACK VRAGEN: should I have multiple or just one return?
         public bool LineCanAddContainer(Container container, int stackIndex)
         {
-            bool result = false;
-
             if (ShouldAddContainer(stackIndex))
             {
                 if (container.Valuable && CanAddValuableContainer(stackIndex))
                 {
-                    result = true;
+                    return true;
                 }
                 else if (container.Cooled && CanAddCooledContainer(stackIndex))
                 {
-                    result = true;
+                    return true;
                 }
                 else if (!container.Cooled && !container.Valuable)
                 {
-                    result = true;
+                    return true;
                 }
             }
 
-            return result;
+            return false;
         }
 
         public bool ShouldAddContainer(int stackIndex)
@@ -109,11 +106,6 @@
 
         public bool CanAddValuableContainer(int index)
         {
-            if (index == Stacks.Count - 1)
-            {
-                return true;
-            }
-
             if ((index + 1) % 3 == 0)
             {
                 return false;
@@ -129,7 +121,7 @@
 
         public bool CanAddCooledContainer(int index)
         {
-            if (Stacks.Count - 1 != index)
+            if (index != 0)
             {
                 return false;
             }
