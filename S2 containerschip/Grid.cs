@@ -60,12 +60,42 @@
 
             return totalWeight;
         }
+        
+        public double GetLeftWeightPercentage()
+        {
+            double leftWeightPercentage = GetLeftWeight() / GetTotalWeight();
 
-        // needs:
-        // width
-        // length
-        // max carry capacity
-        // functionality so it doesnt capsize
-        // checks so that 50% of the max ship weight is used
+            return leftWeightPercentage;
+        }
+
+        public int GetLeftWeight()
+        {
+            int leftWeight = 0;
+
+            for (int i = 0; i < Math.Floor(Lines.Count * 0.5); i++){
+                leftWeight += Lines[i].GetLineWeight();
+            }
+
+            return leftWeight;
+        }
+
+        public double GetRightWeightPercentage()
+        {
+            double rightWeightPercentage = GetRightWeight() / GetTotalWeight();
+
+            return rightWeightPercentage;
+        }
+
+        public int GetRightWeight()
+        {
+            int rightWeight = 0;
+
+            for(int i = Lines.Count - 1; i >= Math.Ceiling(Lines.Count * 0.5); i--)
+            {
+                rightWeight += Lines[i].GetLineWeight();
+            }
+
+            return rightWeight;
+        }
     }
 }
