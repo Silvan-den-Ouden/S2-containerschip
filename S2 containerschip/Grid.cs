@@ -63,7 +63,7 @@
 
             if(!containerAdded)
             {
-                throw new InvalidOperationException("Could not add container to ship.");
+                throw new InvalidOperationException("Could not add container to grid.");
             }
         }
 

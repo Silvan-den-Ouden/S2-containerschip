@@ -59,11 +59,15 @@
             {
                 if (ShouldAddContainer(stackIndex) && Stacks[stackIndex].CanAddContainerToStack(container))
                 {
-                    if (container.Valuable && CanAddValuableContainer(stackIndex))
+                    if(container.Valuable && container.Cooled && CanAddValuableContainer(stackIndex) && CanAddCooledContainer(stackIndex))
                     {
                         return stackIndex;
                     }
-                    else if (container.Cooled && CanAddCooledContainer(stackIndex))
+                    if (container.Valuable && !container.Cooled && CanAddValuableContainer(stackIndex))
+                    {
+                        return stackIndex;
+                    }
+                    else if (container.Cooled && !container.Valuable && CanAddCooledContainer(stackIndex))
                     {
                         return stackIndex;
                     }
@@ -114,14 +118,24 @@
 
         public bool CanAddValuableContainer(int index)
         {
-            if ((index + 1) % 3 == 0)
+            if (Stacks[index].HasValuable())
             {
                 return false;
             }
 
-            if (Stacks[index].HasValuable())
+            if (HasValuableAndCooled())
             {
-                return false;
+                if ((index + 2) % 3 == 0)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if ((index + 1) % 3 == 0)
+                {
+                    return false;
+                }
             }
 
             return true;
@@ -147,6 +161,19 @@
             }
 
             return lineWeight;
+        }
+
+        public bool HasValuableAndCooled()
+        {
+            foreach(Container container in Stacks[0].Containers)
+            {
+                if (container.Valuable && container.Cooled)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
