@@ -28,12 +28,39 @@
 
         public void AddContainer(Container container)
         {
-            if(CanPlaceInMiddleLine(container) != -1)
-            {
-                Lines[CanPlaceInMiddleLine(container)].AddContainer(container);
-            } else
-            {
+            int MiddleLineIndex = CanPlaceInMiddleLine(container);
+            bool containerAdded = false;
 
+            if(MiddleLineIndex != -1)
+            {
+                Lines[MiddleLineIndex].AddContainer(container);
+                containerAdded = true;
+            }
+            else
+            {
+                int leftLineIndex = GetLeftIndex(container);
+                int rightLineIndex = GetRightIndex(container);
+
+                if (GetLeftWeightPercentage() <= 0.5)
+                {
+                    if (leftLineIndex != -1 || rightLineIndex != -1)
+                    {
+                        Lines[leftLineIndex != -1 ? leftLineIndex : rightLineIndex].AddContainer(container);
+                        containerAdded = true;
+                    }
+                } else
+                {
+                    if (rightLineIndex != -1 || leftLineIndex != -1)
+                    {
+                        Lines[rightLineIndex != -1 ? rightLineIndex : leftLineIndex].AddContainer(container);
+                        containerAdded = true;
+                    }
+                }
+            }
+
+            if(!containerAdded)
+            {
+                throw new InvalidOperationException("Could not add container to ship.");
             }
         }
 
@@ -47,6 +74,27 @@
             }
 
             return MiddleIndex;
+        }
+
+        public int GetLeftIndex(Container container)
+        {
+            for (int i = 0; i < Math.Floor(Lines.Count * 0.5); i++)
+            {
+                return Lines[i].LineCanAddContainer(container);
+            }
+
+            return -1;
+        }
+
+        public int GetRightIndex(Container container)
+        {
+            for (int i = Lines.Count - 1; i >= Math.Ceiling(Lines.Count * 0.5); i--)
+            {
+                return Lines[i].LineCanAddContainer(container);
+
+            }
+
+            return -1;
         }
 
         public int GetTotalWeight()
