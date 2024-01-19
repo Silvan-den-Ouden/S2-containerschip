@@ -49,6 +49,20 @@ namespace Containership_Tests
             Assert.Fail("Did not return so no exception was thrown.");
         }
 
+        [DataRow(1, 1)]
+        [DataRow(3, 4)]
+        [DataRow(4, 3)]
+        [TestMethod]
+        public void InitiateGrid_ShouldHaveCorrectDimensions(int length, int width)
+        {
+            // Act
+            Grid grid = new(length, width);
+
+            // Assert
+            Assert.AreEqual(length, grid.Lines[0].Stacks.Count);
+            Assert.AreEqual(width, grid.Lines.Count);
+        }
+
         [TestMethod]
         public void GetTotalWeight_EmptyShip_ShouldReturnZero()
         {
@@ -108,20 +122,73 @@ namespace Containership_Tests
             Assert.AreEqual(40000, leftWeight);
         }
 
+        [DataRow(2, 40.0/70)]
+        [DataRow(5, 90.0/160)]
         [TestMethod]
-        public void GetLeftWeightPercentage_ValidInput_ShouldReturnCorrectPercentage()
+        public void GetLeftWeightPercentage_ValidInput_ShouldReturnCorrectPercentage(int AmountOfHeavyContainers, double ExpectedResult)
         {
             // Arrange
             Grid grid = new(3, 2);
-            grid.AddContainer(HeavyContainer);
-            grid.AddContainer(HeavyContainer);
+            for (int i = 1; i <= AmountOfHeavyContainers; i++)
+            {
+                grid.AddContainer(HeavyContainer);
+            }
             grid.AddContainer(NormalContainer);
 
             // Act
             double leftPercentage = grid.GetLeftWeightPercentage();
 
             // Assert
-            Assert.AreEqual(40/70, leftPercentage);
+            Assert.AreEqual(ExpectedResult, leftPercentage);
+        }
+
+        [TestMethod]
+        public void GetLeftIndex_Index1IsFree_ShouldReturn1()
+        {
+            // Arrange
+            Grid grid = new(3, 4);
+            for (int i = 1; i <= 30; i++)
+            {
+                grid.AddContainer(HeavyContainer);
+            }
+
+            // Act
+            int index = grid.GetLeftIndex(NormalContainer);
+
+            // Assert
+            Assert.AreEqual(1, index);
+        }
+
+        [TestMethod]
+        public void GetRightIndex_Index2IsFree_ShouldReturn2()
+        {
+            // Arrange
+            Grid grid = new(3, 4);
+            for (int i = 1; i <= 30; i++)
+            {
+                grid.AddContainer(HeavyContainer);
+            }
+
+            // Act
+            int index = grid.GetRightIndex(NormalContainer);
+
+            // Assert
+            Assert.AreEqual(2, index);
+        }
+
+        [DataRow(5, 2)]
+        [DataRow(9, 4)]
+        [TestMethod]
+        public void CanPlaceInMiddleLine_WithSpaceInMiddle_ShouldReturnIndex(int shipWidth, int expectedIndex)
+        {
+            // Arrange
+            Grid grid = new(3, shipWidth);
+
+            // Act
+            int index = grid.CanPlaceInMiddleLine(NormalContainer);
+
+            // Assert
+            Assert.AreEqual(expectedIndex, index);
         }
     }
 }

@@ -23,8 +23,7 @@
 
             for (int i = 0; i < shipWidth; i++)
             {
-                Line line = new();
-                line.MakeLineBasedOnLengthOfShip(shipWidth);
+                Line line = new(shipLength);
                 Lines.Add(line);
             }
         }

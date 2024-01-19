@@ -4,6 +4,12 @@
     {
         public List<Stack> Stacks { get; private set; }
 
+        public Line(int shipLength)
+        {
+            Stacks = new();
+            MakeLineBasedOnLengthOfShip(shipLength);
+        }
+        
         public Line()
         {
             Stacks = new();

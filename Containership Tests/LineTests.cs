@@ -14,10 +14,10 @@ namespace Containership_Tests
         public void MakeLineBasedOnLengthOfShip_ValidWidth_ShouldReturnCorrectAmountOfLines()
         {
             // Arrange
-            Line lineOdd = new();
-            Line lineEven = new();
-            lineOdd.MakeLineBasedOnLengthOfShip(5);
-            lineEven.MakeLineBasedOnLengthOfShip(6);
+            Line lineOdd = new(5);
+            Line lineEven = new(6);
+            //lineOdd.MakeLineBasedOnLengthOfShip(5);
+            //lineEven.MakeLineBasedOnLengthOfShip(6);
 
             // Act
             int lengthOdd = lineOdd.Stacks.Count;
