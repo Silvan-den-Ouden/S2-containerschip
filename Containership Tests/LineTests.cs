@@ -9,6 +9,7 @@ namespace Containership_Tests
         readonly Container HeavyContainer = new(26000, false, false);
         readonly Container ValuableContainer = new(6000, false, true);
         readonly Container CooledContainer = new(6000, true, false);
+        readonly Container ValCoolContainer = new(600, true, true);
 
         [TestMethod]
         public void MakeLineBasedOnLengthOfShip_ValidWidth_ShouldReturnCorrectAmountOfLines()
@@ -234,6 +235,55 @@ namespace Containership_Tests
 
             // Act
             bool result = line.ShouldAddContainer(2);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [DataRow(10)]
+        [DataRow(13)]
+        [TestMethod]
+        public void GetLineWeight_ShouldReturnCorrectWeight(int amountOfHeavyContainers)
+        {
+            // Arrange
+            Line line = new(3);
+            int expectedWeight = amountOfHeavyContainers * 30000;
+            for (int i = 1; i <= amountOfHeavyContainers; i++)
+            {
+                line.AddContainer(HeavyContainer);
+            }
+
+            // Act
+            int result = line.GetLineWeight();
+
+            // Assert
+            Assert.AreEqual(expectedWeight, result);
+        }
+
+        [TestMethod]
+        public void HasValuableContainer_IsTrue_ShouldReturnTrue()
+        {
+            // Arrange
+            Line line = new(3);
+            line.AddContainer(ValCoolContainer);
+
+            // Act
+            bool result = line.HasValuableCooled();
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void HasValuableContainer_IsFalse_ShouldReturnFalse()
+        {
+            // Arrange
+            Line line = new(3);
+            line.AddContainer(CooledContainer);
+            line.AddContainer(ValuableContainer);
+
+            // Act
+            bool result = line.HasValuableCooled();
 
             // Assert
             Assert.IsFalse(result);

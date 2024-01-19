@@ -123,7 +123,7 @@
                 return false;
             }
 
-            if (HasValuableAndCooled())
+            if (HasValuableCooled())
             {
                 if ((index + 2) % 3 == 0)
                 {
@@ -163,7 +163,8 @@
             return lineWeight;
         }
 
-        public bool HasValuableAndCooled()
+
+        public bool HasValuableCooled()
         {
             foreach(Container container in Stacks[0].Containers)
             {
