@@ -8,10 +8,6 @@ namespace Containership_Tests
         readonly Container HeavyContainer = new(26000, false, false);
         readonly Container ValuableContainer = new(6000, false, true);
         readonly Container CooledContainer = new(6000, true, false);
-
-        // FEEDBACK VRAGEN:
-        //  Functies callen die al eerder getest zijn (.AddContainer();)
-        //  of built in functies gebruiken (containers.Add();)
         
         [TestMethod]
         public void GetStackWeight_ReturnsCorrectLoad()

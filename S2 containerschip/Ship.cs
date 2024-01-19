@@ -17,7 +17,10 @@
             {
                 AddContainer(container);
             }
-            if(Grid.GetTotalWeight() <= MaximumLoad)
+
+            
+
+            if (Grid.GetTotalWeight() <= MaximumLoad * 0.5)
             {
                 throw new InvalidOperationException("Ship cannot set sail, load weighs to little");
             }
