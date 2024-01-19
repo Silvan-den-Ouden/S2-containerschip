@@ -3,7 +3,7 @@
     public class Ship
     {
         int MaximumLoad { get; set; }
-        Grid Grid { get; set; }
+        public Grid Grid { get; set; }
 
         public Ship(int length, int width, int maximumLoad)
         {
@@ -16,9 +16,7 @@
             foreach(Container container in containers)
             {
                 AddContainer(container);
-            }
-
-            
+            }      
 
             if (Grid.GetTotalWeight() <= MaximumLoad * 0.5)
             {
