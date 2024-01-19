@@ -76,10 +76,10 @@ namespace Containership_Tests
             line.MakeLineBasedOnLengthOfShip(2);
 
             // Act
-            bool canAddValuableContainer = line.LineCanAddContainer(ValuableContainer, 0);
-            bool canAddNormalContainer = line.LineCanAddContainer(NormalContainer, 0);
-            bool canAddHeavyContainer = line.LineCanAddContainer(HeavyContainer, 0);
-            bool canAddCooledContainer = line.LineCanAddContainer(CooledContainer, 0);
+            bool canAddValuableContainer = line.LineCanAddContainer(ValuableContainer) != -1;
+            bool canAddNormalContainer = line.LineCanAddContainer(NormalContainer) != -1;
+            bool canAddHeavyContainer = line.LineCanAddContainer(HeavyContainer) != -1;
+            bool canAddCooledContainer = line.LineCanAddContainer(CooledContainer) != -1;
 
             // Assert
             Assert.IsTrue(canAddNormalContainer);
@@ -102,14 +102,14 @@ namespace Containership_Tests
             // Act
             for (int i = 0; i < line.Stacks.Count; i++)
             {
-                if (line.LineCanAddContainer(ValuableContainer, i)){
+                if (line.LineCanAddContainer(ValuableContainer) != -1){
                     couldAddValuableContainer = true;
                 }
-                if (line.LineCanAddContainer(ValuableContainer, i))
+                if (line.LineCanAddContainer(ValuableContainer) != -1)
                 {
                     couldAddCooledContainer = true;
                 }
-                if (line.LineCanAddContainer(ValuableContainer, i))
+                if (line.LineCanAddContainer(ValuableContainer) != -1)
                 {
                     couldAddNormalContainer = true;
                 }

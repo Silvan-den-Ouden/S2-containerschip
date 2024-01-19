@@ -51,7 +51,7 @@
         {
             for (int stackIndex = 0; stackIndex < Stacks.Count; stackIndex++)
             {
-                if (ShouldAddContainer(stackIndex))
+                if (ShouldAddContainer(stackIndex) && Stacks[stackIndex].CanAddContainerToStack(container))
                 {
                     if (container.Valuable && CanAddValuableContainer(stackIndex))
                     {
@@ -137,7 +137,7 @@
 
             foreach(Stack stack in Stacks)
             {
-                lineWeight += stack.GetStackWeight()
+                lineWeight += stack.GetStackWeight();
             }
 
             return lineWeight;
