@@ -1,5 +1,5 @@
 ﻿namespace S2_containerschip
-{
+{ 
     public class Container
     {
         public int Content { get; set; }
@@ -33,6 +33,23 @@
             int totalContainerWeight = Content + ContainerWeight;
 
             return totalContainerWeight;
+        }
+
+        public override string ToString()
+        {
+            string returnString = "";
+
+            if(Valuable)
+            {
+                returnString += "Valuable ";
+            }
+            if(Cooled)
+            {
+                returnString += "Cooled ";
+            }
+            returnString += $"Container weighing {GetWeight()} kg.";
+
+            return returnString;
         }
     }
 }

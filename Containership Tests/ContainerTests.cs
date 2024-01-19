@@ -4,7 +4,7 @@
     public class ContainerTests
     {
         [TestMethod]
-        public void GetWeight_WithValidInput_ReturnsCorrectWeight()
+        public void GetWeight_WithValidWeight_ReturnsCorrectWeight()
         {
             // Arrange 
             Container container = new(20000, false, false);

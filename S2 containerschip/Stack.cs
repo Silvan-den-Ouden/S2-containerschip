@@ -2,7 +2,7 @@
 {
     public class Stack
     {
-        public List<Container> Containers { get; set; }
+        public List<Container> Containers { get; private set; }
 
         public Stack() {
             Containers = new();
@@ -21,12 +21,12 @@
 
         public bool CanAddContainerToStack(Container container)
         {
-            if(GetLoadOnBottomContainer() + container.GetWeight() > container.GetMaxLoad())
+            if(GetStackWeight() > container.GetMaxLoad())
             {
                 return false;
             }
 
-            if (TopIsValuable())
+            if(container.Valuable && HasValuable())
             {
                 return false;
             }
@@ -34,31 +34,26 @@
             return true;
         }
 
-        public int GetLoadOnBottomContainer()
+        public int GetStackWeight()
         {
-            int load = 0;
+            int stackWeight = 0;
 
-            for(int i = 1; i < Containers.Count; i++) {
-                load += Containers[i].GetWeight();
+            for(int i = 0; i < Containers.Count; i++) {
+                stackWeight += Containers[i].GetWeight();
             }
 
-            return load;
+            return stackWeight;
         }
 
-        public bool TopIsValuable()
+        public bool HasValuable()
         {
-            // if there are no containers, the top cant be valuable
-            if(Containers.Count == 0)
+            foreach(Container container in Containers)
             {
-                return false;
+                if (container.Valuable)
+                {
+                    return true;
+                }
             }
-
-            // checks if last (aka the top of the stack) container in containers is valuable 
-            if (Containers[^1].Valuable)
-            {
-                return true;
-            }
-
             return false;
         }
     }

@@ -8,20 +8,14 @@ namespace Containership_Tests
         readonly Container HeavyContainer = new(26000, false, false);
         readonly Container ValuableContainer = new(6000, false, true);
         readonly Container CooledContainer = new(6000, true, false);
-
-        // FEEDBACK VRAGEN:
-        //  Functies callen die al eerder getest zijn (.AddContainer();)
-        //  of built in functies gebruiken (containers.Add();)
         
-
         [TestMethod]
-        public void GetLoadOnBottomContainer_ReturnsCorrectLoad()
+        public void GetStackWeight_ReturnsCorrectLoad()
         {
             // Arrange
             Stack stack = new();
             List<Container> containerList = new()
             {
-                NormalContainer,
                 NormalContainer,
                 NormalContainer,
                 NormalContainer,
@@ -33,57 +27,37 @@ namespace Containership_Tests
             }
 
             // Act
-            int loadOnBottomContainer = stack.GetLoadOnBottomContainer();
+            int loadOnBottomContainer = stack.GetStackWeight();
 
             // Assert
             Assert.AreEqual(30000, loadOnBottomContainer);
         }
 
-        [TestMethod]
-        public void TopIsValuable_WithValuableContainerOnTop_ReturnsTrue()
+        [TestMethod] 
+        public void HasValuable_DoesHaveValuable_ShouldReturnTrue()
         {
             // Arrange
             Stack stack = new();
-
-            List<Container> containerList = new()
-            {
-                NormalContainer,
-                NormalContainer,
-                ValuableContainer,
-            };
-
-            foreach (Container container in containerList)
-            {
-                stack.Containers.Add(container);
-            }
+            stack.Containers.Add(ValuableContainer);
 
             // Act
-            bool result = stack.TopIsValuable();
+            bool result = stack.HasValuable();
 
             // Assert
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void TopIsValuable_WithNonValuableContainerOnTop_ReturnsFalse()
+        public void HasValuable_DoesNotHaveValuable_ShouldReturnFalse()
         {
             // Arrange
             Stack stack = new();
-
-            List<Container> containerList2 = new()
-            {
-                NormalContainer,
-                NormalContainer,
-                NormalContainer,
-            };
-
-            foreach (Container container in containerList2)
-            {
-                stack.Containers.Add(container);
-            }
+            stack.Containers.Add(NormalContainer);
+            stack.Containers.Add(HeavyContainer);
+            stack.Containers.Add(CooledContainer);
 
             // Act
-            bool result = stack.TopIsValuable();
+            bool result = stack.HasValuable();
 
             // Assert
             Assert.IsFalse(result);
@@ -114,14 +88,14 @@ namespace Containership_Tests
         {
             // Arrange
             Stack stack = new();
+            stack.Containers.Add(HeavyContainer);
+            stack.Containers.Add(HeavyContainer);
+            stack.Containers.Add(HeavyContainer);
+            stack.Containers.Add(HeavyContainer);
             stack.Containers.Add(NormalContainer);
-            stack.Containers.Add(NormalContainer);
-            stack.Containers.Add(HeavyContainer);
-            stack.Containers.Add(HeavyContainer);
-            stack.Containers.Add(HeavyContainer);
 
             // Act
-            // The load on the first container is 100 000 kg, so it cannot add another heavy container
+            // The stack has a weight of 130 000 kg, which is greater than a container can carry.
             bool result = stack.CanAddContainerToStack(HeavyContainer);
 
             // Assert
@@ -147,22 +121,17 @@ namespace Containership_Tests
         }
 
         [TestMethod]
-        public void CanAddContainer_WithValuableContainerOnTop_ShouldReturnFalse()
+        public void CanAddValuableContainer_WithValuableContainerInStack_ShouldReturnFalse()
         {
             // Arrange
             Stack stack = new();
             stack.Containers.Add(ValuableContainer);
+            stack.Containers.Add(NormalContainer);
 
             // Act
-            bool canAddNormalContainer = stack.CanAddContainerToStack(NormalContainer);
-            bool canAddHeavyContainer = stack.CanAddContainerToStack(HeavyContainer);
-            bool canAddCooledContainer = stack.CanAddContainerToStack(CooledContainer);
             bool canAddValuableContainer = stack.CanAddContainerToStack(ValuableContainer);
 
             // Assert
-            Assert.IsFalse(canAddNormalContainer);
-            Assert.IsFalse(canAddHeavyContainer);
-            Assert.IsFalse(canAddCooledContainer);
             Assert.IsFalse(canAddValuableContainer);
         }
 
@@ -197,7 +166,7 @@ namespace Containership_Tests
             // Act
             try
             {
-                stack.AddContainer(NormalContainer);
+                stack.AddContainer(ValuableContainer);
             }
             catch (InvalidOperationException)
             {
