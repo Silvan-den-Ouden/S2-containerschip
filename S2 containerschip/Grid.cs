@@ -2,27 +2,30 @@
 {
     public class Grid
     {
-        List<Line> Lines { get; set; }
+        public List<Line> Lines { get; private set; }
 
-        public Grid()
+        public Grid(int shipLength, int shipWidth)
         {
             Lines = new();
+            MakeGridBasedOnShipDimensions(shipLength, shipWidth);
         }
 
-        public void MakeLinesBasedOnLengthOfShip(int shipLength)
+        public void MakeGridBasedOnShipDimensions(int shipLength, int shipWidth)
         {
-            if (shipLength == 0)
+            if (shipWidth == 0)
             {
                 throw new InvalidOperationException("Cannot make infinitly thin ship.");
             }
-            if (shipLength < 0)
+            if (shipWidth < 0)
             {
                 throw new InvalidOperationException("Cannot make imaginary ship.");
             }
 
-            for (int i = 0; i < shipLength; i++)
+            for (int i = 0; i < shipWidth; i++)
             {
-                Lines.Add(new Line());
+                Line line = new();
+                line.MakeLineBasedOnLengthOfShip(shipWidth);
+                Lines.Add(line);
             }
         }
 
@@ -40,8 +43,9 @@
             {
                 int leftLineIndex = GetLeftIndex(container);
                 int rightLineIndex = GetRightIndex(container);
+                double leftWeightPercentage = GetLeftWeightPercentage();
 
-                if (GetLeftWeightPercentage() <= 0.5)
+                if (leftWeightPercentage <= 0.5)
                 {
                     if (leftLineIndex != -1 || rightLineIndex != -1)
                     {
@@ -80,7 +84,10 @@
         {
             for (int i = 0; i < Math.Floor(Lines.Count * 0.5); i++)
             {
-                return Lines[i].LineCanAddContainer(container);
+                if (Lines[i].LineCanAddContainer(container) != -1)
+                {
+                    return i;
+                }
             }
 
             return -1;
@@ -90,8 +97,10 @@
         {
             for (int i = Lines.Count - 1; i >= Math.Ceiling(Lines.Count * 0.5); i--)
             {
-                return Lines[i].LineCanAddContainer(container);
-
+                if (Lines[i].LineCanAddContainer(container) != -1)
+                {
+                    return i;
+                }
             }
 
             return -1;
@@ -111,7 +120,12 @@
         
         public double GetLeftWeightPercentage()
         {
-            double leftWeightPercentage = GetLeftWeight() / GetTotalWeight();
+            if(GetTotalWeight() == 0)
+            {
+                return 0;
+            }
+
+            double leftWeightPercentage = (double)GetLeftWeight() / GetTotalWeight();
 
             return leftWeightPercentage;
         }
@@ -127,23 +141,23 @@
             return leftWeight;
         }
 
-        public double GetRightWeightPercentage()
-        {
-            double rightWeightPercentage = GetRightWeight() / GetTotalWeight();
+        //public double GetRightWeightPercentage()
+        //{
+        //    double rightWeightPercentage = GetRightWeight() / GetTotalWeight();
 
-            return rightWeightPercentage;
-        }
+        //    return rightWeightPercentage;
+        //}
 
-        public int GetRightWeight()
-        {
-            int rightWeight = 0;
+        //public int GetRightWeight()
+        //{
+        //    int rightWeight = 0;
 
-            for(int i = Lines.Count - 1; i >= Math.Ceiling(Lines.Count * 0.5); i--)
-            {
-                rightWeight += Lines[i].GetLineWeight();
-            }
+        //    for(int i = Lines.Count - 1; i >= Math.Ceiling(Lines.Count * 0.5); i--)
+        //    {
+        //        rightWeight += Lines[i].GetLineWeight();
+        //    }
 
-            return rightWeight;
-        }
+        //    return rightWeight;
+        //}
     }
 }

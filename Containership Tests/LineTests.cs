@@ -11,7 +11,7 @@ namespace Containership_Tests
         readonly Container CooledContainer = new(6000, true, false);
 
         [TestMethod]
-        public void MakeLineBasedOnLength_ValidWidth_ShouldReturnCorrectAmountOfLines()
+        public void MakeLineBasedOnLengthOfShip_ValidWidth_ShouldReturnCorrectAmountOfLines()
         {
             // Arrange
             Line lineOdd = new();
@@ -29,7 +29,7 @@ namespace Containership_Tests
         }
 
         [TestMethod]
-        public void MakeLineBasedOnLength_EmptyWidth_ShouldThrowException()
+        public void MakeLineBasedOnLengthOfShip_EmptyWidth_ShouldThrowException()
         {
             // Arrange
             Line lineEmpty = new();
@@ -49,7 +49,7 @@ namespace Containership_Tests
         }
 
         [TestMethod]
-        public void MakeLinesBasedOnWidth_NegativeWidth_ShouldThrowException()
+        public void MakeLineBasedOnLengthOfShip_NegativeWidth_ShouldThrowException()
         {
             // Arrange
             Line lineNegative = new();

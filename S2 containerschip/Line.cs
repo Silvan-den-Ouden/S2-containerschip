@@ -2,7 +2,7 @@
 {
     public class Line
     {
-        public List<Stack> Stacks { get; set; }
+        public List<Stack> Stacks { get; private set; }
 
         public Line()
         {

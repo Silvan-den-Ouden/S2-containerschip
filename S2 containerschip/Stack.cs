@@ -2,7 +2,7 @@
 {
     public class Stack
     {
-        public List<Container> Containers { get; set; }
+        public List<Container> Containers { get; private set; }
 
         public Stack() {
             Containers = new();
